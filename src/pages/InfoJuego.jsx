@@ -1,0 +1,182 @@
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import clienteAxios from "../config/axios";
+import imagen_prueba from '../assets/images/img_1.jpg'
+import Header from "./Header";
+import { formatearPrecio } from "../helpers/formatearPrecio";
+import useAuth from "../hooks/useAuth";
+import useJuegos from "../hooks/useJuegos";
+
+export const InfoJuego = () => {
+  const { id } = useParams();
+  const [juego, setJuego] = useState([]);
+  const [cargandoJuego, setCargandoJuego] = useState(true);
+
+  const {nombre, descripcion, lanzamiento, precio} = juego;
+  const genero = juego.genero?.genero;
+  const desarrollador = juego.usuario?.desarrollador;
+  
+  const {auth} = useAuth();
+  
+  const {
+    listaDeseos, 
+    cargandoLista, 
+    obtenerListaDeseos, 
+    agregarListaDeseos, 
+    eliminarListaDeseos, 
+    carrito, 
+    cargandoCarrito, 
+    obtenerCarrito, 
+    agregarCarrito, 
+    eliminarCarrito,
+    compras,
+    cargandoCompras
+  } = useJuegos();
+
+  const navigate = useNavigate();
+  
+  const existeJuegoLista = () => {
+    const existe = listaDeseos.some((juego) => juego.id === Number(id));
+    return existe;
+  }
+
+  const existeJuegoCarrito = () => {
+    const existe = carrito.some((juego) => juego.id === Number(id));
+    return existe;
+  }
+  
+  const existeJuegoCompras = () => {
+    const existe = compras.some((juego) => juego.id === Number(id));
+    console.log(existe);
+    return existe;
+  }
+
+  const [guardadoLista, setGuardadoLista] = useState(undefined);
+  const [guardadoCarrito, setGuardadoCarrito] = useState(undefined);
+  const [guardadoCompras, setGuardadoCompras] = useState(undefined);
+
+  useEffect( () => { 
+    infoJuego();
+    if(Object.keys(juego).length === 0){
+      setCargandoJuego(false);
+    }
+
+    if(!cargandoLista && !cargandoCarrito && !cargandoCompras){
+        setGuardadoLista(existeJuegoLista());
+        setGuardadoCarrito(existeJuegoCarrito());  
+        setGuardadoCompras(existeJuegoCompras());  
+    }   
+
+  }, [listaDeseos, carrito, compras, id])
+    
+  const infoJuego = async () => {
+    try {
+      const {data} = await clienteAxios.get(`/juegos/juego/${id}`);
+      setJuego(data);
+      } catch (error) {
+        console.log(error)
+    }
+  }
+
+  const handleListaDeseos = async () => {
+    // Verificar que no este en la lista de deseos
+    if(Object.keys(auth).length !== 0){
+      if(!existeJuegoLista()){
+        const {guardado} = await agregarListaDeseos({id_juego: Number(id)});
+        setGuardadoLista(guardado);
+      }else{
+        const {guardado} = await eliminarListaDeseos(Number(id));
+        setGuardadoLista(guardado);
+      }
+      obtenerListaDeseos();
+    }else{
+      navigate('/login')
+    }
+  }
+
+  const handleCarrito = async () => {
+    // Verificar que no este en el carrito
+    if(Object.keys(auth).length !== 0){
+      if(!existeJuegoCarrito()){
+        const {guardado} = await agregarCarrito({id_juego: Number(id)});        
+        setGuardadoCarrito(guardado);
+      }else{
+        const {guardado} = await eliminarCarrito(Number(id));
+        setGuardadoCarrito(guardado);
+      }
+      obtenerCarrito();
+    }else{
+      navigate('/login')
+    }
+  }
+
+    if( cargandoJuego && cargandoLista && cargandoCarrito){
+      // Agregar spinner
+      return 'cargando...'
+    }else{
+      return (
+        <>     
+          <Header/>
+          <div className="bg-gray-900 pt-16 px-4 sm:px-6 lg:px-8 mt-5 min-h-screen">
+            <div className="max-w-7xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-6">
+                  <h1 className="text-3xl sm:text-4xl font-bold text-gray-100">{nombre}</h1>
+                  <img 
+                    src={imagen_prueba} 
+                    alt="Imagen del juego" 
+                    className="w-full h-auto object-cover rounded-lg shadow-lg border border-gray-700"
+                  />
+                  <div>
+                    <span className="font-semibold text-gray-100">Género: </span>
+                    <span className="text-gray-300">{genero}</span>
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-semibold text-gray-100 mb-2">Descripción</h2>
+                    <p className="text-gray-300">{descripcion}</p>
+                  </div>
+                </div>
+                <div className="space-y-6 mt-0 md:mt-20">
+                  <div>
+                    {/* <span className="font-semibold text-gray-100">Precio:</span> */}
+                    <span className="text-2xl text-gray-300">{formatearPrecio(precio)}</span>
+                  </div>
+                  <div className="space-y-3">
+                    <button 
+                      onClick={handleListaDeseos} 
+                      className="flex items-center px-4 py-2 text-white rounded-lg hover:bg-slate-700 transition duration-300 bg-slate-800"
+                    >
+                      <span className="material-symbols-outlined mr-2 ">bookmark</span>
+                      <span>{guardadoLista ? "Quitar de la lista de deseos" : "Añadir a la lista de deseos"}</span>
+                    </button>
+
+                    <button
+                      disabled={guardadoCompras}
+                      onClick={handleCarrito} 
+                      className="disabled:bg-slate-900 disabled:border disabled:border-slate-800 flex items-center px-4 py-2 text-white rounded-lg hover:bg-slate-700 transition duration-300 bg-slate-800"
+                    >
+                      <span className="material-symbols-outlined mr-2">shopping_cart</span>
+                      <span>{guardadoCompras ? 'Comprado' : guardadoCarrito ? "Quitar del carrito" : "Añadir al carrito"}</span>
+                    </button>
+                  </div>
+                  
+                  <div>
+                    <span className="font-semibold text-gray-100">Desarrollador:</span>
+                    <span className="ml-2 text-gray-300">{desarrollador}</span>
+                  </div>
+                  <div>
+                    <span className="font-semibold text-gray-100">Lanzamiento:</span>
+                    <span className="ml-2 text-gray-300">{lanzamiento}</span>
+                  </div> 
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+        </>
+      ) 
+  }
+}
+
+export default InfoJuego;
