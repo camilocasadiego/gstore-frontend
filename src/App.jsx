@@ -41,6 +41,7 @@ function App() {
               {/* Rutas Protegidas */}
               <Route path='/' element={<RutaProtegida/>}>
                 <Route path='/admin' element={<Admin/>}>
+                  <Route index element={<Navigate to='/admin/perfil' replace />} />
                   <Route path='/admin/perfil' element={<Perfil/>}/>
                   <Route path='/admin/desarrollador' element={<Desarrollador/>}/>
                   <Route path='/admin/desarrollador/:id' element={<EditarJuego/>}/>

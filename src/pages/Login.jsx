@@ -12,32 +12,51 @@ export const Login = () => {
     const {setAuth} = useAuth();
     const navigate = useNavigate();
 
+    const [alertas, setAlertas] = useState({});
+
+    // Función para manejar los alertas
+    const agregarAlerta = (input, msg) => {
+        setAlertas(prevAlertas => ({
+            ...prevAlertas,
+            [input]: msg,
+        }));
+    }
+
+    const handleCorreo = () => {
+        agregarAlerta('correo', '');
+        if(correo === '') agregarAlerta('correo', 'Debes ingresar tu correo');
+    }
+
+    const handlePassword = () => {
+        agregarAlerta('password', '');
+        if(password === '') agregarAlerta('password', 'Debes ingresar tu contraseña');
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        console.log(correo)
-        console.log(password)
-        setAlerta({});
+        agregarAlerta('submit', '');
 
+        if(correo === '') handleCorreo();
+        if(password === '') handlePassword();
+
+        // Colocar alerta que retorna el backend
         if(![correo, password].includes('')){
             try {
                 const {data} = await clienteAxios.post('/usuarios/login', {correo, password}); 
-                console.log(data)
-                localStorage.setItem('token', data.token)
-                setAuth(data)
-                setCorreo('');
-                navigate('/');
+                if(data.msg){
+                    agregarAlerta('submit', data.msg);
+                }else{
+                    localStorage.setItem('token', data.token)
+                    setAuth(data)
+                    setCorreo('');
+                    navigate('/');
+                }        
             } catch (error) {
                 setAlerta({msg: error.response.data.msg, error: true})
             }
-        }else{
-            setAlerta({msg: "Debes ingresar tu correo y contraseña", error: true})
-            
         }
-        setPassword('');
     }
-
-    const { msg } = alerta
 
     return (
         <>
@@ -47,21 +66,25 @@ export const Login = () => {
                         <h1 className="text-2xl font-bold text-white text-center mb-6">Iniciar Sesión</h1>
                     </div>
                     
-                    {msg && <Alerta
-                        alerta={alerta}
-                    />}
+                    {alertas.submit && (
+                    <p className="bg-red-500 text-center mt-4 mb-4 text-white uppercase font-bold rounded p-2 shadow-md">
+                        {alertas.submit}
+                    </p>
+                )}
 
-                    <form onClick={handleSubmit} action="" className="space-y-4">
+                    <form onSubmit={handleSubmit} action="" className="space-y-4">
                         <div className="text-white">
                             <div>
-                            <label className="block mb-1" htmlFor="correo">Correo</label>
+                                <label className="block mb-1" htmlFor="correo">Correo</label>
                                 <input
                                     id="usuario"
                                     className="mb-3 bg-slate-700 border border-slate-600 rounded w-full p-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     type="email"
                                     onChange={e => setCorreo(e.target.value)}                         
+                                    onBlur={handleCorreo}
 
                                 />
+                                <p className="text-sm text-red-500 mb-2">{alertas.correo}</p>
                             </div>
                             <div>
                                 <label className="block mb-1" htmlFor="password">Contraseña</label>
@@ -69,9 +92,10 @@ export const Login = () => {
                                     id="password"
                                     className="bg-slate-700 border border-slate-600 rounded w-full p-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     type="password"
-                                    onChange={e => setPassword(e.target.value)}                         
-
+                                    onChange={e => setPassword(e.target.value)}   
+                                    onBlur={handlePassword}                      
                                 />
+                                <p className="text-sm text-red-500 mt-1">{alertas.password}</p>
                             </div>
                             <div>
                                 <button

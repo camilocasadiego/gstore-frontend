@@ -23,7 +23,7 @@ export const Desarrollador = () => {
         <div>
             <div className="flex"> 
                 <div className=" w-full">
-                    <h1 className="text-center text-3xl text-slate-300 mt-5 font-bold">Admin</h1>
+                    <h1 className="text-center text-3xl text-slate-300 mt-5">Administración de <span className="font-bold">Juegos</span></h1>
                 </div>          
              
                 <button 

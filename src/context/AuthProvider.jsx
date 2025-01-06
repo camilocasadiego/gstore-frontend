@@ -33,13 +33,43 @@ const AuthProvider = ({children}) => {
 
         autenticarUsuario();
     }, []);
+
+    const actualizarUsuario = async (user) => {
+        console.log("Actualizando Usuario!");
+
+        
+        const token = localStorage.getItem('token');
+        if(token){
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                }
+            }
+            
+            try {
+                const {id, usuario, correo } = user
+                const {data} = await clienteAxios.put(`/usuarios/actualizar`, {id, usuario, correo}, config);                
+                setAuth(data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
+
+    const cerrarSesion = () => {
+        localStorage.removeItem('token');
+        setAuth({})
+    }
   
     return (
     <AuthContext.Provider
         value={{
             auth,
             setAuth,
-            cargandoUsuario
+            cargandoUsuario,
+            actualizarUsuario,
+            cerrarSesion
         }}
     >
         {children}

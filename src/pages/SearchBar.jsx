@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import clienteAxios from "../config/axios";
-import SearchModal from "./SearchModal";
+import SearchModal from "../components/Modal/SearchModal";
 
 export const SearchBar = () => {
     
@@ -39,8 +39,12 @@ export const SearchBar = () => {
     }
         
     useEffect( () => {
-        document.addEventListener('click', (e)  => handleClickOutside(e));
+        document.addEventListener('click', handleClickOutside);
         setModalActivo(true);
+
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
     }, [juegos])
     
     return (

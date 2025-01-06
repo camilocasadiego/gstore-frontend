@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import clienteAxios from "../config/axios";
-import SearchModal from "./SearchModal";
+import SearchModal from "../components/Modal/SearchModal";
 
 export const SearchBar = () => {
     

@@ -1,4 +1,4 @@
-import { SearchList } from "./SearchList";
+import { SearchList } from "../../pages/SearchList";
 
 export const SearchModal = ({juegos}) => {
     
