@@ -8,11 +8,12 @@ export const Login = () => {
 
     const [correo, setCorreo] = useState('');
     const [password, setPassword] = useState('');
-    const [alerta, setAlerta] = useState({});
+    
+    const [alertas, setAlertas] = useState({});
+
     const {setAuth} = useAuth();
     const navigate = useNavigate();
 
-    const [alertas, setAlertas] = useState({});
 
     // Función para manejar los alertas
     const agregarAlerta = (input, msg) => {
@@ -53,7 +54,8 @@ export const Login = () => {
                     navigate('/');
                 }        
             } catch (error) {
-                setAlerta({msg: error.response.data.msg, error: true})
+                console.log(error);
+                // setAlerta({msg: error.response.data.msg, error: true})
             }
         }
     }

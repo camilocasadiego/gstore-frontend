@@ -1,9 +1,7 @@
 import useDesarrollador from "../hooks/useDesarrollador";
-import imagen_prueba from "../assets/images/img_1.jpg"
 import { formatearPrecio } from "../helpers/formatearPrecio";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import clienteAxios from "../config/axios";
+import { useEffect } from "react";
 import { formatearFecha } from "../helpers/formatearFecha";
 import useJuegos from "../hooks/useJuegos";
 export const Desarrollador = () => {
@@ -13,11 +11,32 @@ export const Desarrollador = () => {
     const {generos, obtenerGeneros} = useJuegos();
 
     const {eliminarJuego, obtenerJuegos, juegos} = useDesarrollador();
-
+    
     useEffect(() => {
         obtenerGeneros();
         obtenerJuegos();
-    }, [])
+    }, []);
+
+    // const obtenerImagen = async (imagen) => {
+    //     console.log(`Obteniendo imagen ${imagen}`)
+    //     const {data} = await clienteAxios.get(`/desarrollador/imagenes/${imagen}`);
+    //     console.log(data);
+    //     return data;
+    // }
+
+    // const obtenerImagen = async (nombreImagen) => {
+    //     try {
+    //         const { data } = await clienteAxios.get(`/desarrollador/imagenes/${nombreImagen}`, {
+    //             responseType: 'blob', // Importante si estás recibiendo un archivo
+    //         });
+    //         console.log(data);
+    //         return data;
+    //         const url = URL.createObjectURL(data);
+    //         // setImagen((prev) => ({ ...prev, [nombreImagen]: url }));
+    //     } catch (error) {
+    //         console.error("Error al obtener la imagen:", error);
+    //     }
+    // };
 
     return (
         <div>
@@ -42,8 +61,8 @@ export const Desarrollador = () => {
                         <div className="ml-3 mr-3">
                             <img
                                 onClick={() => navigate(`/juegos/${juego.id}`)}
-                                src={imagen_prueba}
-                                alt={`Imagen del juego ${juego.nombre}`}
+                                src={`http://localhost:4000/uploads/${juego.imagen}`}
+                                alt={`Imagen ${juego.nombre}`}
                                 className="w-20 h-16 object-cover rounded-lg shadow-lg hover:cursor-pointer"
                             />
                         </div>

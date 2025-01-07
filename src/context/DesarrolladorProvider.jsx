@@ -40,24 +40,61 @@ const DesarrolladorProvider = ({children}) => {
     }
 
     // Agrega un juego a la listas de juegos del desarrollador
-    const agregarJuego = async (juego) => {        
+    // const agregarJuego = async (juego, imagen) => {        
+    //     const token = localStorage.getItem('token');
+    //     if(token){
+    //         const config = {
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 Authorization: `Bearer ${token}`
+    //             }
+    //         }
+
+    //         const juegoFormateado = new FormData();
+    //         juegoFormateado.append('juego', juego);
+    //         juegoFormateado.append('imagen', imagen);
+
+    //         try {
+    //             await clienteAxios.post(`/desarrollador/agregar-juego`, juegoFormateado, config);
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     }
+    // }
+
+    const agregarJuego = async (juego) => {
         const token = localStorage.getItem('token');
-        
         if(token){
+
+            const {nombre, descripcion, id_genero, id_desarrollador, lanzamiento, precio, imagen} = juego;
+            
+            const formData = new FormData();
+            
+            formData.append('nombre', nombre);
+            formData.append('descripcion', descripcion);
+            formData.append('id_genero', id_genero);
+            formData.append('id_desarrollador', id_desarrollador);
+            formData.append('lanzamiento', lanzamiento);
+            formData.append('precio', precio);
+            formData.append('imagen', imagen);
+
             const config = {
                 headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
+                    "Content-Type": 'multipart/form-data', // Importante para enviar archivos
+                    "Authorization": `Bearer ${token}`,
                 }
             }
 
             try {
-                await clienteAxios.post(`/desarrollador/agregar-juego`, juego, config);
+                const {data} = await clienteAxios.post(`/desarrollador/agregar-juego`, formData, config);
+                return data;
             } catch (error) {
                 console.log(error);
             }
-        }
-    }
+        }    
+    };
+    
+    
 
     // Edita un juego
     const editarJuego = async (juego) => {

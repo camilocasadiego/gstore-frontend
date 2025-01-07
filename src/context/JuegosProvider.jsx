@@ -27,7 +27,7 @@ const JuegosProvider = ({children}) => {
     const obtenerGeneros = async () => {
         try {
             const {data} = await clienteAxios.get('/juegos/generos');
-            return data;
+            setGeneros(data);
         } catch (error) {
             console.log(error);
         }

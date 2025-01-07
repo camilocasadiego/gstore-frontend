@@ -1,12 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import imagen_prueba from '../assets/images/img_1.jpg'
-import { formatearPrecio } from '../helpers/formatearPrecio';
-import { useState } from 'react';
-import useJuegos from '../hooks/useJuegos';
+const imagenPath = `${import.meta.env.VITE_BACKEND_URL}/uploads`;
+
 
 export const SearchList = ({juego}) => {
 
-    const {id, nombre, precio} = juego;
+    const {id, nombre, precio, imagen} = juego;
     const navigate = useNavigate();
     
     const handleClick = () => {
@@ -18,7 +17,7 @@ export const SearchList = ({juego}) => {
         onClick={handleClick}
         className="cursor-pointer hover:bg-slate-600 hover:rounded-xl flex items-center">
         <img 
-            src={imagen_prueba} 
+            src={imagen ? `${imagenPath}/${imagen}` : imagen_prueba}
             alt="Imagen del juego" 
             className="w-20 h-16 object-cover rounded-lg shadow-lg m-2"
             />

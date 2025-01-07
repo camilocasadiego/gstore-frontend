@@ -6,13 +6,14 @@ import Header from "./Header";
 import { formatearPrecio } from "../helpers/formatearPrecio";
 import useAuth from "../hooks/useAuth";
 import useJuegos from "../hooks/useJuegos";
+const imagenPath = `${import.meta.env.VITE_BACKEND_URL}/uploads`;
 
 export const InfoJuego = () => {
   const { id } = useParams();
   const [juego, setJuego] = useState([]);
   const [cargandoJuego, setCargandoJuego] = useState(true);
 
-  const {nombre, descripcion, lanzamiento, precio} = juego;
+  const {nombre, descripcion, lanzamiento, precio, imagen} = juego;
   const genero = juego.genero?.genero;
   const desarrollador = juego.usuario?.desarrollador;
   
@@ -109,7 +110,7 @@ export const InfoJuego = () => {
       navigate('/login')
     }
   }
-
+  
     if( cargandoJuego && cargandoLista && cargandoCarrito){
       // Agregar spinner
       return 'cargando...'
@@ -123,7 +124,7 @@ export const InfoJuego = () => {
                 <div className="space-y-6">
                   <h1 className="text-3xl sm:text-4xl font-bold text-gray-100">{nombre}</h1>
                   <img 
-                    src={imagen_prueba} 
+                    src={imagen ? `${imagenPath}/${imagen}` : imagen_prueba}
                     alt="Imagen del juego" 
                     className="w-full h-auto object-cover rounded-lg shadow-lg border border-gray-700"
                   />
