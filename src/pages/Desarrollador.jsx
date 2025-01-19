@@ -17,27 +17,6 @@ export const Desarrollador = () => {
         obtenerJuegos();
     }, []);
 
-    // const obtenerImagen = async (imagen) => {
-    //     console.log(`Obteniendo imagen ${imagen}`)
-    //     const {data} = await clienteAxios.get(`/desarrollador/imagenes/${imagen}`);
-    //     console.log(data);
-    //     return data;
-    // }
-
-    // const obtenerImagen = async (nombreImagen) => {
-    //     try {
-    //         const { data } = await clienteAxios.get(`/desarrollador/imagenes/${nombreImagen}`, {
-    //             responseType: 'blob', // Importante si estás recibiendo un archivo
-    //         });
-    //         console.log(data);
-    //         return data;
-    //         const url = URL.createObjectURL(data);
-    //         // setImagen((prev) => ({ ...prev, [nombreImagen]: url }));
-    //     } catch (error) {
-    //         console.error("Error al obtener la imagen:", error);
-    //     }
-    // };
-
     return (
         <div>
             <div className="flex"> 

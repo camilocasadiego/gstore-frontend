@@ -81,7 +81,7 @@ const JuegosProvider = ({children}) => {
             }
 
             try {
-                const {data} = await clienteAxios.get(`/desarrollador/juegos/${id}`, config);            
+                const {data} = await clienteAxios.get(`/desarrollador/juegos/${id}`, config);  
                 return data;
             } catch (error) {
                 console.log(error);

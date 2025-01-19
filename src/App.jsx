@@ -5,7 +5,7 @@ import InfoJuego from './pages/InfoJuego'
 import VerMas from './pages/VerMas'
 import Login from './pages/Login'
 import CrearCuenta from './pages/CrearCuenta'
-import OlvidePassword from './pages/OlvidePassword'
+import RecuperarCuenta from './pages/RecuperarCuenta'
 import { AuthProvider } from './context/AuthProvider'
 import ListaDeseos from './pages/ListaDeseos'
 import { JuegosProvider } from './context/JuegosProvider'
@@ -18,6 +18,9 @@ import { DesarrolladorProvider } from './context/DesarrolladorProvider'
 import EditarJuego from './pages/EditarJuego'
 import AgregarJuego from './pages/AgregarJuego'
 import Biblioteca from './pages/Biblioteca'
+import { ConfirmarCuenta } from './pages/ConfirmarCuenta'
+import { CambiarPassword } from './pages/CambiarPassword'
+import { AdminCambiarPassword } from './pages/AdminCambiarPassword'
 
 
 function App() {
@@ -32,7 +35,9 @@ function App() {
               {/* Rutas públicas */}
               <Route path='/login' element={<Login/>} />
               <Route path='/crear_cuenta' element={<CrearCuenta/>} />
-              <Route path='/olvide-password' element={<OlvidePassword/>} />
+              <Route path='/confirmar/:token' element={<ConfirmarCuenta/>}/>
+              <Route path='/recuperar-cuenta' element={<RecuperarCuenta/>} />
+              <Route path='/cambiar-password/:token' element={<CambiarPassword/>}/>
 
               <Route path='/' element={<PaginaPrincipal/>}/>
               <Route path='/juegos/:id' element={<InfoJuego/>}/>
@@ -43,6 +48,7 @@ function App() {
                 <Route path='/admin' element={<Admin/>}>
                   <Route index element={<Navigate to='/admin/perfil' replace />} />
                   <Route path='/admin/perfil' element={<Perfil/>}/>
+                  <Route path='/admin/password' element={<AdminCambiarPassword/>}/>
                   <Route path='/admin/desarrollador' element={<Desarrollador/>}/>
                   <Route path='/admin/desarrollador/:id' element={<EditarJuego/>}/>
                   <Route path='/admin/desarrollador/agregar-juego' element={<AgregarJuego/>}/>

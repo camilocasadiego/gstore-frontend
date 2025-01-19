@@ -69,10 +69,10 @@ export const Login = () => {
                     </div>
                     
                     {alertas.submit && (
-                    <p className="bg-red-500 text-center mt-4 mb-4 text-white uppercase font-bold rounded p-2 shadow-md">
-                        {alertas.submit}
-                    </p>
-                )}
+                        <p className="bg-red-500 text-center mt-4 mb-4 text-white uppercase font-bold rounded p-2 shadow-md">
+                            {alertas.submit}
+                        </p>
+                    )}
 
                     <form onSubmit={handleSubmit} action="" className="space-y-4">
                         <div className="text-white">
@@ -112,7 +112,7 @@ export const Login = () => {
 
                     <div className="mt-6 text-center">
                         <a href="/crear_cuenta" className="text-blue-500 hover:underline mr-4">Crear Cuenta</a>
-                        <a href="/olvide-password" className="text-blue-500 hover:underline">¿Olvidaste tu contraseña?</a>
+                        <a href="/recuperar-cuenta" className="text-blue-500 hover:underline">¿Olvidaste tu contraseña?</a>
                     </div>
                 </div>
             </div>

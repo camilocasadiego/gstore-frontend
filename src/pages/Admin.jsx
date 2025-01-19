@@ -15,6 +15,12 @@ export const Admin = () => {
             </Link>     
           </div>
           <div>
+            <Link className=" material-symbols-outlined text-slate-300" to={'/admin/password'}>
+            lock
+              <span>Contraseña</span>
+            </Link>     
+          </div>
+          <div>
             <Link className="material-symbols-outlined text-slate-300" to={'/admin/desarrollador'}>
               sports_esports
                 <span>Juegos</span>

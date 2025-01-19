@@ -12,7 +12,7 @@ export const AgregarJuego = () => {
     const id_desarrollador = id;
     
     // Funciones de los pro
-    const {obtenerGeneros, buscarJuego} = useJuegos();
+    const {generos, obtenerGeneros, buscarJuego} = useJuegos();
     const {agregarJuego} = useDesarrollador();
     
     // Datos formulario
@@ -21,13 +21,11 @@ export const AgregarJuego = () => {
     const [id_genero, setId_genero] = useState('');
     const [precio, setPrecio] = useState(0);
     const [imagen, setImagen] = useState(null);
+    const [imagenPreview, setImagenPreview] = useState(null);
     
     // Alertas de cada input del formulario
     const [alertas, setAlertas] = useState({});
     
-    // Géneros consultados para mostrar en el formulario
-    const [generos, setGeneros] = useState();
-
     const [submitBtn, setSubmitBtn] = useState(true);
 
     const imagenRef = useRef(null);
@@ -36,7 +34,7 @@ export const AgregarJuego = () => {
         // Obtener los géneros para mostrarlos en el formulario
         const cargarGeneros = async () => {
             try {
-                setGeneros(await obtenerGeneros());
+                await obtenerGeneros();
             } catch (error) {
                 console.log(error)
             }
@@ -90,7 +88,15 @@ export const AgregarJuego = () => {
         agregarAlerta('imagen', '');
         setImagen(null);
         const selectedImg = e.target.files[0];
-        if(selectedImg) setImagen(selectedImg);
+        if(selectedImg) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                setImagenPreview(reader.result);
+            }
+            reader.readAsDataURL(selectedImg);
+
+            setImagen(selectedImg);
+        }
         if(!selectedImg) agregarAlerta('imagen', 'Debes subir una imagen');
     }
 
@@ -124,7 +130,8 @@ export const AgregarJuego = () => {
                     setId_genero('');
                     setPrecio(0);
                     setImagen(null);
-                    
+                    setImagenPreview(null);
+
                     // Limpiar el input de tipo file usando ref
                     if (imagenRef.current) {
                         imagenRef.current.value = ''; // Esto limpiará el campo file
@@ -254,6 +261,14 @@ export const AgregarJuego = () => {
                         />
                         {alertas.imagen && <p className="text-sm text-red-500 mt-1">{alertas.imagen}</p>}
                     </div>
+
+                    {/* Previsualizar Imágen */}
+                    {imagenPreview && (
+                        <div>
+                            <h3>Vista previa de la imagen:</h3>
+                            <img src={imagenPreview} alt="Vista previa" style={{ width: '600px', height: 'auto' }} />
+                        </div>
+                    )}
 
                     <button
                         type="submit"

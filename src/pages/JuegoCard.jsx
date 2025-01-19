@@ -4,7 +4,6 @@ import { formatearPrecio } from '../helpers/formatearPrecio';
 const imagenPath = `${import.meta.env.VITE_BACKEND_URL}/uploads`;
 
 export const JuegoCard = ({juego}) => {
-  console.log(juego);
   const {id, nombre, precio, imagen} = juego;
   const genero = juego.genero?.genero;
 

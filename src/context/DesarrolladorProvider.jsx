@@ -95,22 +95,36 @@ const DesarrolladorProvider = ({children}) => {
     };
     
     
-
+    // TODO: EDITAR ESTA FUNCIÓN
     // Edita un juego
     const editarJuego = async (juego) => {
-        const {id} = juego;
         const token = localStorage.getItem('token');
         
         if(token){
+            
+            const {id, nombre, descripcion, id_genero, id_desarrollador, lanzamiento, precio, imagen} = juego;
+            
+            const formData = new FormData();
+            
+            formData.append('nombre', nombre);
+            formData.append('descripcion', descripcion);
+            formData.append('id_genero', id_genero);
+            formData.append('id_desarrollador', id_desarrollador);
+            formData.append('lanzamiento', lanzamiento);
+            formData.append('precio', precio);
+            formData.append('imagen', imagen);
+
             const config = {
                 headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
+                    "Content-Type": 'multipart/form-data', // Importante para enviar archivos
+                    "Authorization": `Bearer ${token}`,
                 }
             }
-        
+
             try {
-                await clienteAxios.put(`/juegos/editar-juego/${id}`, juego, config);
+                const {data} = await clienteAxios.put(`/juegos/editar-juego/${id}`, formData, config);
+                console.log(data);
+                return data;
             } catch (error) {
                 console.log(error);
             }
