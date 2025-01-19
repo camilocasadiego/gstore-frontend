@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useJuegos from "../hooks/useJuegos";
 import useAuth from "../hooks/useAuth";
 import { obtenerFechaActual } from "../helpers/obtenerFecha";
@@ -12,7 +12,7 @@ export const AgregarJuego = () => {
     const id_desarrollador = id;
     
     // Funciones de los pro
-    const {obtenerGeneros, buscarJuego} = useJuegos();
+    const {generos, obtenerGeneros, buscarJuego} = useJuegos();
     const {agregarJuego} = useDesarrollador();
     
     // Datos formulario
@@ -20,20 +20,21 @@ export const AgregarJuego = () => {
     const [descripcion, setDescripcion] = useState('');
     const [id_genero, setId_genero] = useState('');
     const [precio, setPrecio] = useState(0);
+    const [imagen, setImagen] = useState(null);
+    const [imagenPreview, setImagenPreview] = useState(null);
     
     // Alertas de cada input del formulario
     const [alertas, setAlertas] = useState({});
     
-    // Géneros consultados para mostrar en el formulario
-    const [generos, setGeneros] = useState();
-
     const [submitBtn, setSubmitBtn] = useState(true);
+
+    const imagenRef = useRef(null);
 
     useEffect(() => {
         // Obtener los géneros para mostrarlos en el formulario
         const cargarGeneros = async () => {
             try {
-                setGeneros(await obtenerGeneros());
+                await obtenerGeneros();
             } catch (error) {
                 console.log(error)
             }
@@ -83,16 +84,30 @@ export const AgregarJuego = () => {
         if(precio < 0) agregarAlerta('precio', 'Debes ingresar un precio correcto');
     }
 
+    const handleImagen = (e) => {
+        agregarAlerta('imagen', '');
+        setImagen(null);
+        const selectedImg = e.target.files[0];
+        if(selectedImg) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                setImagenPreview(reader.result);
+            }
+            reader.readAsDataURL(selectedImg);
+
+            setImagen(selectedImg);
+        }
+        if(!selectedImg) agregarAlerta('imagen', 'Debes subir una imagen');
+    }
 
     // Valida si el el botón de "agregar" está o no habilitado
     useEffect(() => {
         validarSubmitBtn();
-    }, [nombre, descripcion, id_genero, precio])
+    }, [nombre, descripcion, id_genero, precio, imagen])
 
     const validarSubmitBtn = () => {
         setSubmitBtn(true);
-        console.log(submitBtn)
-        if(nombre !== '' && descripcion !== '' && id_genero !== '' && precio >= 0){
+        if(nombre !== '' && descripcion !== '' && id_genero !== '' && precio >= 0 && imagen !== null){
             setSubmitBtn(false);
         }
     }
@@ -102,23 +117,35 @@ export const AgregarJuego = () => {
         e.preventDefault();
         
         // Si el botón de enviar está habilitado (disabled = false)
-        
         if(!submitBtn){
             // Seleccionamos la fecha actual como fecha de lanzamiento
             const lanzamiento = obtenerFechaActual();
             try {
-                await agregarJuego({nombre, descripcion, id_genero, id_desarrollador, lanzamiento, precio});
-                setNombre('');
-                setDescripcion('');
-                setId_genero('');
-                setPrecio(0);
-                agregarAlerta('success', 'Juego Agregado Correctamente');
-                console.log(alertas);
+                const response = await agregarJuego({nombre, descripcion, id_genero, id_desarrollador, lanzamiento, precio, imagen});
+
+                if(response === true){
+                    setAlertas({});
+                    setNombre('');
+                    setDescripcion('');
+                    setId_genero('');
+                    setPrecio(0);
+                    setImagen(null);
+                    setImagenPreview(null);
+
+                    // Limpiar el input de tipo file usando ref
+                    if (imagenRef.current) {
+                        imagenRef.current.value = ''; // Esto limpiará el campo file
+                    }
+
+                    agregarAlerta('success', 'Juego Agregado Correctamente');
+                } else{
+                    agregarAlerta('error', response);
+                }
+    
             } catch (error) {
                 console.log(error)
             }
         }
-
     }
     
     if(!generos){
@@ -132,6 +159,12 @@ export const AgregarJuego = () => {
                 {alertas.success && (
                     <p className="bg-blue-200 text-center mt-4 mb-4 text-blue-800 uppercase font-bold rounded p-2 shadow-md">
                         {alertas.success}
+                    </p>
+                )}
+
+                {alertas.error && (
+                    <p className="bg-red-500 text-center mt-4 mb-4 text-white uppercase font-bold rounded p-2 shadow-md">
+                        {alertas.error}
                     </p>
                 )}
 
@@ -211,6 +244,31 @@ export const AgregarJuego = () => {
                         />
                         {alertas.precio && <p className="text-sm text-red-500 mt-1">{alertas.precio}</p>}
                     </div>
+
+                    {/* Imagen */}
+                    <div className="mb-6">
+                        <label htmlFor="imagen" className="block text-sm font-medium text-gray-300 mb-2">
+                            Imagen
+                        </label>
+                        <input
+                            ref={imagenRef}
+                            onChange={handleImagen}
+                            type="file"
+                            id="imagen"
+                            name="imagen"
+                            placeholder="Selecciona una imagen"
+                            // className="w-full px-4 py-3 border border-gray-600 rounded-lg bg-slate-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                        />
+                        {alertas.imagen && <p className="text-sm text-red-500 mt-1">{alertas.imagen}</p>}
+                    </div>
+
+                    {/* Previsualizar Imágen */}
+                    {imagenPreview && (
+                        <div>
+                            <h3>Vista previa de la imagen:</h3>
+                            <img src={imagenPreview} alt="Vista previa" style={{ width: '600px', height: 'auto' }} />
+                        </div>
+                    )}
 
                     <button
                         type="submit"

@@ -1,9 +1,7 @@
-import { Link, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import SearchBar from "./SearchBar";
-import SearchModal from "../components/Modal/SearchModal";
 import { PerfilModal } from "../components/Modal/PerfilModal";
-import { useState } from "react";
 
 export const Header = () => {
 
@@ -35,8 +33,6 @@ export const Header = () => {
                                     >person
                                 </button> */}
                                 <PerfilModal/>
-             
-             
                             </>
                         }
                         

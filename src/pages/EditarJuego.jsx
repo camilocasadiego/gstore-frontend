@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useJuegos from "../hooks/useJuegos";
 import useAuth from "../hooks/useAuth";
 import { obtenerFechaActual } from "../helpers/obtenerFecha";
@@ -12,7 +12,7 @@ export const AgregarJuego = () => {
     const id_desarrollador = auth.id;
     
     // Funciones de los providers
-    const {obtenerGeneros, buscarJuego, buscarPorId} = useJuegos();
+    const {generos, obtenerGeneros, buscarJuego, buscarPorId} = useJuegos();
     const {editarJuego} = useDesarrollador();
     
     // Datos formulario
@@ -20,12 +20,12 @@ export const AgregarJuego = () => {
     const [descripcion, setDescripcion] = useState('');
     const [id_genero, setId_genero] = useState('');
     const [precio, setPrecio] = useState(0);
+    const [imagen, setImagen] = useState(null);
+    const [originalImg, setOriginalImg] = useState(null);
+    const [imagenPreview, setImagenPreview] = useState(null);
     
     // Alertas de cada input del formulario
     const [alertas, setAlertas] = useState({});
-    
-    // Géneros consultados para mostrar en el formulario
-    const [generos, setGeneros] = useState();
 
     // Controla el botón de "guardar", para que se muestre disponible o no
     const [submitBtn, setSubmitBtn] = useState(true);
@@ -36,18 +36,21 @@ export const AgregarJuego = () => {
     // Variable para verificar que ya se haya cargado la info del juego que se va a editar
     const [cargado, setCargado] = useState(false);
 
+    const imagenRef = useRef(null);
+    
     useEffect(() => {
         const cargarDatos = async () => {
           try {
-            const generosData = await obtenerGeneros();
-            setGeneros(generosData);
-    
+            await obtenerGeneros();
+                
             if (id) {
               const juegoEditar = await buscarPorId(id);
               setNombre(juegoEditar.nombre);
               setDescripcion(juegoEditar.descripcion);
               setId_genero(juegoEditar.id_genero);
               setPrecio(juegoEditar.precio);
+              setImagen(juegoEditar.imagen);
+              setOriginalImg(juegoEditar.imagen);
             }
             setCargado(true);
           } catch (error) {
@@ -56,7 +59,7 @@ export const AgregarJuego = () => {
         };
     
         cargarDatos();
-      }, [id, obtenerGeneros, buscarPorId]);
+      }, [id]);
     
     // Función para manejar los alertas
     const agregarAlerta = (input, msg) => {
@@ -99,15 +102,35 @@ export const AgregarJuego = () => {
         if(precio < 0) agregarAlerta('precio', 'Debes ingresar un precio correcto');
     }
 
+    // TODO: revisar bien esta función (asignar o no asiganar -> setImagen(originalImg) ??)
+    const handleImagen = (e) => {
+        agregarAlerta('imagen', '');
+        setImagen(null);
+        setImagenPreview(null);
+        const selectedImg = e.target.files[0];
+        if(selectedImg) {
+            console.log("Imágen seleccionada");
+            const reader = new FileReader();
+            reader.onload = () => {
+                setImagenPreview(reader.result);
+            }
+            reader.readAsDataURL(selectedImg);
+
+            setImagen(selectedImg);
+        }else{
+            console.log("Se guarda imagen anterior");
+            setImagen(originalImg)
+        }
+    }
 
     // Valida si el el botón de "agregar" está o no habilitado
     useEffect(() => {
         validarSubmitBtn();
-    }, [nombre, descripcion, id_genero, precio])
+    }, [nombre, descripcion, id_genero, precio, imagen])
 
     const validarSubmitBtn = () => {
         setSubmitBtn(true);
-        if(nombre !== '' && descripcion !== '' && id_genero !== '' && precio >= 0){
+        if(nombre !== '' && descripcion !== '' && id_genero !== '' && precio >= 0 && imagen !== null){
             setSubmitBtn(false);
         }
     }
@@ -122,9 +145,9 @@ export const AgregarJuego = () => {
             // Seleccionamos la fecha actual como fecha de lanzamiento
             const lanzamiento = obtenerFechaActual();
             try {
-                await editarJuego({id, nombre, descripcion, id_genero, id_desarrollador, lanzamiento, precio});
+                console.log(imagen);
+                await editarJuego({id, nombre, descripcion, id_genero, id_desarrollador, lanzamiento, precio, imagen});
                 agregarAlerta('success', 'Juego editado Correctamente');
-                console.log(alertas);
             } catch (error) {
                 console.log(error)
             }
@@ -223,6 +246,29 @@ export const AgregarJuego = () => {
                             className="w-full px-4 py-3 border border-gray-600 rounded-lg bg-slate-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                         />
                         {alertas.precio && <p className="text-sm text-red-500 mt-1">{alertas.precio}</p>}
+                    </div>
+
+                    {/* Imagen */}
+                    <div className="mb-6">
+                        <label htmlFor="imagen" className="block text-sm font-medium text-gray-300 mb-2">
+                            Imagen
+                        </label>
+                        <input
+                            ref={imagenRef}
+                            onChange={handleImagen}
+                            type="file"
+                            id="imagen"
+                            name="imagen"
+                            placeholder="Selecciona una imagen"
+                            // className="w-full px-4 py-3 border border-gray-600 rounded-lg bg-slate-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                        />
+                        {alertas.imagen && <p className="text-sm text-red-500 mt-1">{alertas.imagen}</p>}
+                    </div>
+
+                    {/* Previsualizar Imágen */}
+                    <div>
+                        <h3>Vista previa de la imagen:</h3>
+                        <img src={imagenPreview ? imagenPreview : `http://localhost:4000/uploads/${imagen}`} alt="Vista previa" style={{ width: '600px', height: 'auto' }} />
                     </div>
 
                     <button

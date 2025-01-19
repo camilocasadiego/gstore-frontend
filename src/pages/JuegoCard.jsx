@@ -1,10 +1,10 @@
 import imagen_prueba from '../assets/images/img_1.jpg'
 import { useNavigate } from 'react-router-dom';
 import { formatearPrecio } from '../helpers/formatearPrecio';
+const imagenPath = `${import.meta.env.VITE_BACKEND_URL}/uploads`;
 
 export const JuegoCard = ({juego}) => {
-
-  const {id, nombre, precio} = juego;
+  const {id, nombre, precio, imagen} = juego;
   const genero = juego.genero?.genero;
 
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ export const JuegoCard = ({juego}) => {
           
             <img
               className="w-full h-48 object-cover"
-              src={imagen_prueba}
+              src={imagen ? `${imagenPath}/${imagen}` : imagen_prueba}
               alt="Producto"
             />
 

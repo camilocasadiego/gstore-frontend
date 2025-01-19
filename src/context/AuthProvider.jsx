@@ -57,6 +57,48 @@ const AuthProvider = ({children}) => {
         }
     }
 
+    // Permite cambiar la contraseña desde el panel de administración
+    const actualizarPassword = async (correo, currentPassword, newPassword, confirmPassword) => {
+        const token = localStorage.getItem('token');
+        if(token){
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                }
+            }
+
+            try {
+                const {data} = await clienteAxios.post('/usuarios/cambiar-password', { correo, currentPassword, newPassword, confirmPassword }, config);
+                return data;
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
+
+    // Permite cambiar la contraseña (función de "olvidé mi contraseña")
+    const restablecerPassword = async (newPassword, confirmPassword, token) => {
+        try {
+            const {data} = await clienteAxios.post(`/usuarios/restablecer-password/${token}`, {newPassword, confirmPassword});
+            return data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // TODO: Recuperar cuenta (enviar correo con el código)
+    const recuperarCuenta = async (correo) => {
+        console.log(correo)
+        try {
+            const {data} = await clienteAxios.post(`/usuarios/recuperar-cuenta`, {correo});
+            return data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
     const cerrarSesion = () => {
         localStorage.removeItem('token');
         setAuth({})
@@ -69,6 +111,9 @@ const AuthProvider = ({children}) => {
             setAuth,
             cargandoUsuario,
             actualizarUsuario,
+            actualizarPassword,
+            restablecerPassword,
+            recuperarCuenta,
             cerrarSesion
         }}
     >

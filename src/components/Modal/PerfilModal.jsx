@@ -42,7 +42,7 @@ export const PerfilModal = () => {
                             <Link 
                                 className=" material-symbols-outlined text-xl text-slate-300" to={'/admin/perfil'}>
                             person
-                            <span>Perfil</span>
+                            <span>Cuenta</span>
                             </Link>     
                         </div>
                         <div>
