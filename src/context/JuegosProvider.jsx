@@ -16,8 +16,10 @@ const JuegosProvider = ({children}) => {
     // Variables que almacenan el valor de la carga de la lissta de deseos y el carrito ( true = se encuentra cargando / false = ya cargó)
     const [cargandoLista, setCargandoLista] = useState(true);
     const [cargandoCarrito, setCargandoCarrito] = useState(true);
+    const [cargandoBiblioteca, setCargandoBiblioteca] = useState(true);    
 
-    useEffect( () => {     
+    // Se carga cada que se recarga un componente
+    useEffect( () => {
         obtenerCarrito();
         obtenerListaDeseos();    
         obtenerCompras();
@@ -34,6 +36,7 @@ const JuegosProvider = ({children}) => {
     }
 
     // const obtenerConfig = () => {
+        
     //     const token = localStorage.getItem('token');
         
     //     let config = {};
@@ -103,7 +106,6 @@ const JuegosProvider = ({children}) => {
             try {
                 const {data} = await clienteAxios.get('/juegos/lista-deseos', config);
                 setListaDeseos(data);
-                // TODO: ¿Debería ir aquí o fuera del try?
                 setCargandoLista(false);
             } catch (error) {
                 console.log(error)
@@ -162,7 +164,6 @@ const JuegosProvider = ({children}) => {
             try {
                 const {data} = await clienteAxios.get('/juegos/carrito', config);
                 setCarrito(data);
-                // TODO: ¿Debería ir aquí o fuera del try?
                 setCargandoCarrito(false);
             } catch (error) {
                 console.log(error);
@@ -211,6 +212,7 @@ const JuegosProvider = ({children}) => {
     }
 
     const obtenerCompras = async () => {
+        setCargandoBiblioteca(true);
         const token = localStorage.getItem('token');
         if(token){
             const config = {
@@ -221,8 +223,9 @@ const JuegosProvider = ({children}) => {
             }
             
             try {
-                const {data} = await clienteAxios.get('/juegos/compras', config)
+                const {data} = await clienteAxios.get('/juegos/compras', config)                
                 setCompras(data)
+                setCargandoBiblioteca(false);
             } catch (error) {
                 console.log(error);
             }
@@ -231,6 +234,14 @@ const JuegosProvider = ({children}) => {
         }
     }
     
+    const infoJuego = async (id) => {
+        try {
+            return await clienteAxios.get(`/juegos/juego/${id}`);           
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <JuegosContext.Provider
         value={{
@@ -246,12 +257,16 @@ const JuegosProvider = ({children}) => {
             eliminarCarrito,
             cargandoCarrito,
             compras,
+            setCompras,
             obtenerCompras,
             buscarJuego,
             generos,
             obtenerGeneros,
             buscarPorNombre,
             buscarPorId,
+            infoJuego,
+            cargandoBiblioteca,
+            setCargandoBiblioteca
         }}
     >
         {children}

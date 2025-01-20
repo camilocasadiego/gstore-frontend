@@ -6,14 +6,14 @@ import { formatearPrecio } from "../helpers/formatearPrecio";
 import clienteAxios from "../config/axios";
 
 export const Carrito = () => {
-    const {carrito, setCarrito} = useJuegos();
+    const {carrito, setCarrito, setCompras} = useJuegos();
     const [totalCarrito, setTotalCarrito] = useState(0);
     
     const calTotalCarrito = () => {
         const total = carrito.reduce((acc, juego) => acc + Number(juego.precio), 0);
         setTotalCarrito(total);
     }
-    
+
     const handleClick = async () => {
         const token = localStorage.getItem('token');
         if(token){
@@ -26,10 +26,12 @@ export const Carrito = () => {
 
             try {
                 const {data} = await clienteAxios.post('/juegos/compras', carrito, config);
-                console.log(data);
-                // Buscar la opción de que la consulta de arriba me retorne el carrito y actualizarlo en el state
-                const carritoActualizdo = carrito.filter((juego) => !data.includes(juego.id))
-                setCarrito(carritoActualizdo);
+                if(data.success){
+                    // Actualizamos la biblioteca
+                    setCompras(prevCompras => [...prevCompras, ...carrito]);
+                    // Limpiamos el carrito
+                    setCarrito([]);
+                }
 
             } catch (error) {
                 console.log(error);
@@ -60,7 +62,7 @@ export const Carrito = () => {
                                 </div>
                             ) : (
                                 <p className="text-gray-300 text-center text-lg mt-10">
-                                Tu lista de deseos está vacía. ¡Agrega juegos para comenzar!
+                                Tu carrito está vacío. ¡Agrega juegos para comenzar!
                                 </p>
                             )}
                         </ul>

@@ -31,7 +31,7 @@ export const PerfilModal = () => {
         <div ref={modalRef}>
             <button 
                 onClick={toggleProfileModal}
-                className="h-fit material-symbols-outlined"
+                className="flex items-center material-symbols-outlined"
                 >person
             </button>
 

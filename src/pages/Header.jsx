@@ -7,8 +7,6 @@ export const Header = () => {
 
     const {auth} = useAuth();
 
-  
-
     return (
         <>
             <header className="bg-gray-800 text-white fixed top-0 left-0 w-full shadow-md z-10">
@@ -19,7 +17,7 @@ export const Header = () => {
                     </h1>
 
                     {/* Menú de navegación */}
-                    <nav className="hidden md:flex gap-8 absolute top-5 right-0">
+                    <nav className="hidden md:flex gap-8 absolute top-5 right-0 items-center justify-center">
                         <SearchBar/>
                         {Object.keys(auth).length !== 0 &&
                             <>

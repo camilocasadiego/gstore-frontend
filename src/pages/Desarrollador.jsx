@@ -4,7 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { formatearFecha } from "../helpers/formatearFecha";
 import useJuegos from "../hooks/useJuegos";
+import imagen_prueba from "../assets/images/img_1.jpg"
 export const Desarrollador = () => {
+    const imagenPath = `${import.meta.env.VITE_BACKEND_URL}/uploads`;
 
     const navigate = useNavigate();
         
@@ -40,7 +42,7 @@ export const Desarrollador = () => {
                         <div className="ml-3 mr-3">
                             <img
                                 onClick={() => navigate(`/juegos/${juego.id}`)}
-                                src={`http://localhost:4000/uploads/${juego.imagen}`}
+                                src={juego.imagen ? `${imagenPath}/${juego.imagen}` : imagen_prueba}
                                 alt={`Imagen ${juego.nombre}`}
                                 className="w-20 h-16 object-cover rounded-lg shadow-lg hover:cursor-pointer"
                             />

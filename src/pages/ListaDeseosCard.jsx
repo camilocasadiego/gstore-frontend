@@ -3,35 +3,26 @@ import { useNavigate } from 'react-router-dom';
 import { formatearPrecio } from '../helpers/formatearPrecio';
 import useJuegos from '../hooks/useJuegos';
 import { useEffect, useState } from 'react';
+import { existeJuego } from '../helpers/existeJuego';
 
 export const ListaDeseosCard = ({juego}) => {
     
     const {id, nombre, precio} = juego;
     const genero = juego.genero?.genero;
-    const {carrito, agregarCarrito, eliminarCarrito, eliminarListaDeseos} = useJuegos();
+    const {carrito, agregarCarrito, eliminarCarrito, eliminarListaDeseos, compras} = useJuegos();
     const navigate = useNavigate();
  
     const [guardadoCarrito, setGuardadoCarrito] = useState(false);
     const [guardadoBiblioteca, setGuardadoBiblioteca] = useState(false);
 
-    const existeEnCarrito = () => {
-        return carrito.some(juego => juego.id === id);
-    }
-
-    const {compras} = useJuegos();
-
-    const existeEnBiblioteca = () => {
-        return compras.some(juego => juego.id === id);
-    }
-
     useEffect(() => {
-        console.log(carrito);
-        console.log(compras);
+        // Verificar si el juego existe en el carrito
+        setGuardadoCarrito(existeJuego(carrito, id));
+        
+        // Verificar si el juego existe en la biblioteca
+        setGuardadoBiblioteca(existeJuego(compras, id));
        
-        setGuardadoCarrito(existeEnCarrito());
-        setGuardadoBiblioteca(existeEnBiblioteca());
-       
-    }, [carrito]);
+    }, []);
 
     const handleBotonCarrito = () => {
         if(!guardadoCarrito){

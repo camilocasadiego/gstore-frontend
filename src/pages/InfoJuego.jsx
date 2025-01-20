@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import clienteAxios from "../config/axios";
 import imagen_prueba from '../assets/images/img_1.jpg'
 import Header from "./Header";
 import { formatearPrecio } from "../helpers/formatearPrecio";
 import useAuth from "../hooks/useAuth";
 import useJuegos from "../hooks/useJuegos";
+import { existeJuego } from "../helpers/existeJuego";
+import { formatearFecha } from "../helpers/formatearFecha";
 const imagenPath = `${import.meta.env.VITE_BACKEND_URL}/uploads`;
 
 export const InfoJuego = () => {
@@ -31,58 +32,44 @@ export const InfoJuego = () => {
     agregarCarrito, 
     eliminarCarrito,
     compras,
-    cargandoCompras
+    infoJuego,
+    cargandoBiblioteca
   } = useJuegos();
 
   const navigate = useNavigate();
   
-  const existeJuegoLista = () => {
-    const existe = listaDeseos.some((juego) => juego.id === Number(id));
-    return existe;
-  }
-
-  const existeJuegoCarrito = () => {
-    const existe = carrito.some((juego) => juego.id === Number(id));
-    return existe;
-  }
-  
-  const existeJuegoCompras = () => {
-    const existe = compras.some((juego) => juego.id === Number(id));
-    console.log(existe);
-    return existe;
-  }
-
   const [guardadoLista, setGuardadoLista] = useState(undefined);
   const [guardadoCarrito, setGuardadoCarrito] = useState(undefined);
   const [guardadoCompras, setGuardadoCompras] = useState(undefined);
 
-  useEffect( () => { 
-    infoJuego();
-    if(Object.keys(juego).length === 0){
-      setCargandoJuego(false);
+  useEffect( () => {
+    const cargarInfoJuego = async () => {
+      const {data} = await infoJuego(id);
+      if(data === null){
+        navigate('/');
+      }else{
+        setJuego(data);
+      }
     }
 
-    if(!cargandoLista && !cargandoCarrito && !cargandoCompras){
-        setGuardadoLista(existeJuegoLista());
-        setGuardadoCarrito(existeJuegoCarrito());  
-        setGuardadoCompras(existeJuegoCompras());  
+    if(juego.length === 0){
+      cargarInfoJuego();
+    } else{
+      setCargandoJuego(false);
     }   
+    
 
+    if(!cargandoCarrito) setGuardadoCarrito(existeJuego(carrito, id));
+    if(!cargandoLista) setGuardadoLista(existeJuego(listaDeseos, id));
+    if(!cargandoBiblioteca) setGuardadoCompras(existeJuego(compras, id));
+    
   }, [listaDeseos, carrito, compras, id])
     
-  const infoJuego = async () => {
-    try {
-      const {data} = await clienteAxios.get(`/juegos/juego/${id}`);
-      setJuego(data);
-      } catch (error) {
-        console.log(error)
-    }
-  }
-
+  
   const handleListaDeseos = async () => {
     // Verificar que no este en la lista de deseos
     if(Object.keys(auth).length !== 0){
-      if(!existeJuegoLista()){
+      if(!guardadoLista){
         const {guardado} = await agregarListaDeseos({id_juego: Number(id)});
         setGuardadoLista(guardado);
       }else{
@@ -98,7 +85,7 @@ export const InfoJuego = () => {
   const handleCarrito = async () => {
     // Verificar que no este en el carrito
     if(Object.keys(auth).length !== 0){
-      if(!existeJuegoCarrito()){
+      if(!guardadoCarrito){
         const {guardado} = await agregarCarrito({id_juego: Number(id)});        
         setGuardadoCarrito(guardado);
       }else{
@@ -167,7 +154,7 @@ export const InfoJuego = () => {
                   </div>
                   <div>
                     <span className="font-semibold text-gray-100">Lanzamiento:</span>
-                    <span className="ml-2 text-gray-300">{lanzamiento}</span>
+                    <span className="ml-2 text-gray-300">{lanzamiento ? formatearFecha(lanzamiento) : ''}</span>
                   </div> 
                 </div>
               </div>
