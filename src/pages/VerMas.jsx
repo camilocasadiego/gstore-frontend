@@ -37,19 +37,23 @@ export const VerMas = () => {
     return (
         <>        
             <Header/>
-            <div className="pt-16 bg-slate-900 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-                {juegos.map(juego => (
-                    <Juego 
-                        key={juego.id}
-                        juego={juego}
-                    />
-                ))}
-            </div>
-            
-            <div className="text-center pb-6 text-white bg-slate-900">
-                {existJuegos && (
-                    <button className="bg-slate-800 p-3 rounded" onClick={consultarJuegos}>Ver Más</button>
-                )}
+            <div className="bg-slate-900 pt-20">
+                <h1 className="text-3xl font-semibold p-6 text-white">{genero === 'ultimos-juegos' ? "Últimos Juegos" : genero}</h1>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+                    {juegos.map(juego => (
+                        <Juego 
+                            key={juego.id}
+                            juego={juego}
+                        />
+                    ))}
+                </div>
+                
+                <div className="text-center pb-6 text-white bg-slate-900">
+                    {existJuegos && (
+                        <button className="bg-slate-800 p-3 rounded" onClick={consultarJuegos}>Ver Más</button>
+                    )}
+                </div>
             </div>
         </>
     )

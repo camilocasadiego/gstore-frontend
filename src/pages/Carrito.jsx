@@ -45,10 +45,10 @@ export const Carrito = () => {
 
     return (
         <>
-        <div className="bg-slate-900 min-h-screen pt-16 mt-3">
-                <h1 className="text-4xl text-white text-center mb-6 mt-5">Carrito</h1>
-                <div className="flex ">
-                    <div className="w-2/3">    
+            <div className="bg-slate-900 min-h-screen pt-20">
+                <h1 className="text-4xl text-white text-center mb-6 mt-4">Carrito</h1>
+                <div className={carrito.length !== 0 ? "flex" : ""}>
+                    <div className={carrito.length !== 0 ? "w-2/3" : "w-full"}>    
                         <ul>
                             {carrito.length > 0 ? (
                                 <div className="ml-20 mr-3 mt-3">
@@ -68,20 +68,22 @@ export const Carrito = () => {
                         </ul>
                     </div>
                     
-                    <div className="bg-slate-800 w-1/3 mr-5 rounded-xl mt-3 h-fit">
-                        <h1 className="text-2xl text-slate-400 text-center mt-3 font-bold">Detalles de la Compra</h1>
-                        <div className="flex justify-between mt-3 p-5">
-                            <h2 className="text-slate-300 text-xl">Total</h2>
-                            <p className="text-slate-300 text-xl font-bold">{formatearPrecio(totalCarrito)}</p>
+                    {carrito.length !== 0 &&
+                        <div className="bg-slate-800 w-1/3 mr-5 rounded-xl mt-3 h-fit">
+                            <h1 className="text-2xl text-white text-center mt-3 font-bold">Detalles de la Compra</h1>
+                            <div className="flex justify-between mt-3 p-5">
+                                <h2 className="text-slate-300 text-xl">Total</h2>
+                                <p className="text-slate-300 text-xl font-bold">{formatearPrecio(totalCarrito)}</p>
+                            </div>
+                            <div className="text-center">
+                                <button 
+                                    onClick={handleClick}
+                                    className="uppercase hover:bg-blue-400 bg-blue-500 p-3 mb-3 mt-3 font-bold rounded-xl text-slate-900">
+                                    Finalizar Compra
+                                </button>
+                            </div>
                         </div>
-                        <div className="text-center">
-                            <button 
-                                onClick={handleClick}
-                                className="uppercase hover:bg-blue-400 bg-blue-500 p-3 mb-3 mt-3 font-bold rounded-xl text-slate-900">
-                                Finalizar Compra
-                            </button>
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
         </>

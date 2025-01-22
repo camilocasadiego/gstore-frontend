@@ -7,6 +7,7 @@ import 'swiper/css/navigation';
 import { useEffect, useState } from 'react';
 import clienteAxios from '../config/axios';
 import Juego from './JuegoCard';
+import { obtenerSlides } from "../helpers/obtenerSlides";
 
 export const ListadoJuegos = ({genero}) => {
 
@@ -24,41 +25,27 @@ export const ListadoJuegos = ({genero}) => {
 
     filtrarJuegos();
   }, [])
+  
+  
+  const [slides, setSlides] = useState(obtenerSlides(window.innerWidth));
 
-  const [slides, setSlides] = useState(1);
-
-  const mobileWidth = 481;
-  const tabletWidth = 768;
-  const desktopWidth = 1280;
-
+  // Manejo de cambios en el tamaño de la ventana
   useEffect(() => {
-      const handleResize = () => {
-          const width = window.innerWidth;
-          
-          if (width <= mobileWidth) {
-              setSlides(1); // 1 slide para dispositivos móviles pequeños
-            } else if (width <= tabletWidth) {
-              setSlides(2); // 2 slides para tablets
-            } else if (width <= desktopWidth) {
-              setSlides(3); // 3 slides para escritorios medianos
-            } else {
-              setSlides(4); // 4 slides para pantallas grandes
-            }
-      };
-  
-      // Agregar el listener para el evento "resize"
-      window.addEventListener("resize", handleResize);
-  
-      // Limpiar el listener cuando el componente se desmonte
-      return () => {
-        window.removeEventListener("resize", handleResize);
-      };
-    }, []);
+    const handleResize = () => {
+      setSlides(obtenerSlides(window.innerWidth));
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   
   return (
     
     <>
-      <div className="flex justify-between bg-gray-900 p-6">
+      <div className="flex justify-between bg-gray-900 p-8 items-center">
         <h1 className="text-3xl font-semibold text-white">{genero}</h1>
 
           <a 
