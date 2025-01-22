@@ -25,8 +25,8 @@ export const Biblioteca = () => {
 
   return (
     <>
-      <div className="bg-slate-900 min-h-screen pt-16 mt-3">
-          <h1 className="text-4xl text-white text-center mb-6">Biblioteca</h1>
+      <div className="bg-slate-900 min-h-screen pt-20">
+          <h1 className="text-4xl text-white text-center mb-6 mt-4">Biblioteca</h1>
           
           <ul>
               {compras.length > 0 ? (

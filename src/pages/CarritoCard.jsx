@@ -62,7 +62,7 @@ export const CarritoCard = ({juego}) => {
                         className="text-center bg-slate-600 text-white p-2 rounded-lg hover:bg-slate-500 transition"
                         >
 
-                        {!guardadoLista ? 'Agregar a la listas de deseos' : 'Eliminar de la listas de deseos'}
+                        {!guardadoLista ? 'Agregar a la lista de deseos' : 'Quitar de la lista de deseos'}
                     </button>
                 </div>
             </div>

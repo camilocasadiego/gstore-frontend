@@ -7,39 +7,35 @@ export const Header = () => {
 
     const {auth} = useAuth();
 
-  
-
     return (
         <>
             <header className="bg-gray-800 text-white fixed top-0 left-0 w-full shadow-md z-10">
                 <div className="mx-auto flex justify-between items-center p-4 h-20 relative">
-                    {/* Logotipo */}
-                    <h1 className="text-2xl font-bold">
-                        <a href="/" className="hover:text-gray-300">GStore</a>
-                    </h1>
+                    {/* Logo */}
+                    <div className="flex items-center">
+                        <h1 className="text-2xl font-bold">
+                            <a href="/" className="hover:text-gray-300">GStore</a>
+                        </h1>
+
+                        <div className="absolute top-5 left-28 w-64">
+                            <SearchBar />
+                        </div>
+                        
+                    </div>
 
                     {/* Menú de navegación */}
-                    <nav className="hidden md:flex gap-8 absolute top-5 right-0">
-                        <SearchBar/>
-                        {Object.keys(auth).length !== 0 &&
-                            <>
-                                <Link className="material-symbols-outlined h-fit" to={'/biblioteca'}>sports_esports</Link>     
-                                <Link className="material-symbols-outlined h-fit" to={'/lista_deseos'}>bookmark</Link>     
-                                <Link className="material-symbols-outlined h-fit" to={'/carrito'}>shopping_cart</Link>     
-                                {/* <Link className="material-symbols-outlined" to={'/admin'}>person</Link>   */}
-                                {/* <button 
-                                    // onClick={toggleModalProfile}
-                                    className="h-fit material-symbols-outlined"
-                                    >person
-                                </button> */}
-                                <PerfilModal/>
-                            </>
-                        }
-                        
+                    <div className="flex gap-8 items-center justify-center mr-4">
+                        <div className="flex space-x-5">
+                            <Link className="material-symbols-outlined h-fit" to={'/biblioteca'}>sports_esports</Link>     
+                            <Link className="material-symbols-outlined h-fit" to={'/lista_deseos'}>bookmark</Link>     
+                            <Link className="material-symbols-outlined h-fit" to={'/carrito'}>shopping_cart</Link>     
+                            <PerfilModal/>
+                        </div>
+                                        
                         {Object.keys(auth).length === 0 &&
                             <Link className="" to={'/login'}>Iniciar Sesión</Link>     
                         }
-                    </nav>
+                    </div>
 
                     <div className="md:hidden">
                         <button className="text-gray-300 focus:outline-none">

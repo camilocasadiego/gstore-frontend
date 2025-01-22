@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import clienteAxios from "../config/axios";
+import Alerta from "./Alerta";
 
 export const ConfirmarCuenta = () => {
     
@@ -16,7 +17,7 @@ export const ConfirmarCuenta = () => {
             try { 
                 const {data} = await clienteAxios.get(`/usuarios/confirmar/${token}`);
                 if(data) setCuentaConfirmada(true);
-                setAlerta({msg: data.msg, error: false});
+                setAlerta({msg: data.msg});
             } catch (error) {
                 console.error("Error al confirmar la cuenta:", error);
                 setAlerta({msg: error.response?.data?.msg || "Hubo un error al confirmar la cuenta", error: true});
@@ -28,24 +29,25 @@ export const ConfirmarCuenta = () => {
         confirmarCuenta();
     },[token])
     
-    return ( 
+    return (
         <>
-            <div>
-                <h1 className="text-indigo-600 font-black text-6xl">
-                    Confirma tu cuenta y comienza a administrar tus  {""} 
-                    <span className="text-black"> Pacientes</span>
-                </h1>
-            </div>
+            <div className="bg-slate-900 min-h-screen flex items-center justify-center">
+                <div className="bg-slate-800 p-8 rounded-lg shadow-lg w-full max-w-md">
+                    <div>
+                        <h1 className="text-2xl font-bold text-white text-center mb-6">Cuenta Confirmada</h1>
+                        {cuentaConfirmada ?
+                            <p className="text-white text-center mb-2">¡Tu cuenta está lista! Inicia sesión ahora y empieza a explorar nuestro catálogo de juegos.</p>                    
+                            : <Alerta tipo={cuentaConfirmada} msg={alerta.msg}/>
+                        }
+                    </div>
+                    
+                    {/* {alerta && <Alerta tipo={success} msg={alerta} /> } */}
 
-            <div className='mt-20 md:mt-5 shadow-lg px-5 py-10 rounded-xl bg-white'>
-                {!cargando &&
-                    <p>{alerta}</p>
-                }
- 
-                {cuentaConfirmada && (
-                    <Link className="block text-center my-5 text-gray-500" to="/">Inicia sesión</Link>
-                )}
+                    <div className="mt-6 text-center">
+                        <a href="/login" className="text-blue-500 hover:underline mr-4">Iniciar Sesión</a>
+                    </div>
+                </div>
             </div>
         </>
-    );
+    )
 }

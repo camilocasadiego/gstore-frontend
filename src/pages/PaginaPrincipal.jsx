@@ -1,10 +1,16 @@
 import ListadoJuegos from "./ListadoJuegos";
 import Juego from "./JuegoCard";
+
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from 'swiper/modules';
+// Import Swiper styles
 import 'swiper/css';
+import 'swiper/css/navigation';
+
 import { useEffect, useState } from "react";
 import clienteAxios from "../config/axios";
 import Header from "./Header";
+import { obtenerSlides } from "../helpers/obtenerSlides";
 
 export const PaginaPrincipal = () => {
     
@@ -31,11 +37,26 @@ export const PaginaPrincipal = () => {
         setUltimosJuegos(data.rows);
     }
 
+    const [slides, setSlides] = useState(obtenerSlides(window.innerWidth));
+
+    // Manejo de cambios en el tamaño de la ventana
+    useEffect(() => {
+        const handleResize = () => {
+            setSlides(obtenerSlides(window.innerWidth));
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
+
     return (
         <>
             <Header/>
             <div className="bg-gray-900 pt-16">
-                <div className="flex justify-between p-4">
+                <div className="flex justify-between p-8 items-center">
                     <h1 className="text-3xl font-semibold text-white">Últimos Juegos</h1>
                     <a 
                         href="/genero/ultimos-juegos"
@@ -44,12 +65,13 @@ export const PaginaPrincipal = () => {
                         Ver Más
                     </a>
                 </div>
-                <div className="container">
+                <div className="">
                     <Swiper
-                    spaceBetween={50}
-                    slidesPerView={3}
-                    // onSlideChange={() => console.log('slide change')}
-                    // onSwiper={(swiper) => console.log(swiper)}
+                        // install Swiper modules
+                        modules={[Navigation]}
+                        spaceBetween={10}
+                        slidesPerView={slides}
+                        navigation
                     >
                     {ultimosJuegos.map(juego => (
                         <SwiperSlide key={juego.id}>

@@ -6,9 +6,9 @@ export const ListaDeseos = () => {
     const {listaDeseos} = useJuegos();
     return (
         <>
-        <div className="bg-slate-900 min-h-screen pt-16 mt-3">
+        <div className="bg-slate-900 min-h-screen pt-20">
 
-                <h1 className="text-4xl text-white text-center mb-6">Lista de Deseos</h1>
+                <h1 className="text-4xl text-white text-center mb-6 mt-4">Lista de Deseos</h1>
                 
                 <ul>
                     {listaDeseos.length > 0 ? (

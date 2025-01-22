@@ -19,12 +19,16 @@ export const CrearCuenta = () => {
             if(password.length >= 8){
                 if(password === confirmarPassword){
                     try {
-                        const respuesta = await clienteAxios.post('/usuarios/crear-cuenta', { usuario, correo, password, confirmarPassword });
-                        setUsuario('')
-                        setCorreo('');
-                        setPassword('');
-                        setConfirmarPassword('');
-                        setAlerta({msg: 'Cuenta creada correctamente. Revisa tu correo para confirmar tu cuenta', error: false});
+                        const response = await clienteAxios.post('/usuarios/crear-cuenta', { usuario, correo, password, confirmarPassword });
+                        if(response){
+                           if(response.success) {
+                               setUsuario('')
+                               setCorreo('');
+                               setPassword('');
+                               setConfirmarPassword('');
+                           }
+                           setAlerta({success: response.success, msg: response.msg});
+                        }
                     } catch (error) {
                         setAlerta({msg: error.response.data.msg, error: true})
                     }
@@ -35,14 +39,9 @@ export const CrearCuenta = () => {
                 setAlerta({msg: 'La contraseña debe tener mínimo 8 caracteres', error: true});
             }
         }else{
-            setAlerta({msg: 'Debe rellenar todos los campos', error: true});
+            setAlerta({success: false, msg: "Debes rellenar todos los campos"});
         }
-        
-    
-
     }
-
-    const { msg } = alerta
 
     return (
         <>
@@ -51,8 +50,9 @@ export const CrearCuenta = () => {
                     <div>
                         <h1 className="text-2xl font-bold text-white text-center mb-6">Crear Cuenta</h1>
                     </div>
-                    {msg && <Alerta
-                        alerta={alerta}
+                    {alerta.msg && <Alerta
+                        tipo={alerta.success}
+                        msg={alerta.msg}
                     />} 
                     <form onSubmit={handleSubmit} action="" className="space-y-4">
                         <div className="text-white">

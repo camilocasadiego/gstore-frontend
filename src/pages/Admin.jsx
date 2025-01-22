@@ -8,24 +8,23 @@ export const Admin = () => {
       <div className="flex p-16 space-x-4">
         {/* Colocar esto en un nav bar */}
         <div className="h-fit">
-          <div>
-            <Link className=" material-symbols-outlined text-slate-300" to={'/admin/perfil'}>
-            person
-              <span>Perfil</span>
+         
+            <Link className="material-symbols-outlined flex items-center text-slate-300" to={'/admin/perfil'}>
+              person
+              <span className="ml-1 text-xl">Perfil</span>
             </Link>     
-          </div>
-          <div>
-            <Link className=" material-symbols-outlined text-slate-300" to={'/admin/password'}>
-            lock
-              <span>Contraseña</span>
+         
+            <Link className="material-symbols-outlined flex items-center text-slate-300 space-x-2" to={'/admin/password'}>
+              lock
+              <span className="ml-1 text-xl">Contraseña</span>      
             </Link>     
-          </div>
-          <div>
-            <Link className="material-symbols-outlined text-slate-300" to={'/admin/desarrollador'}>
+          
+            <Link className="material-symbols-outlined flex items-center text-slate-300 space-x-2" to={'/admin/desarrollador'}>
               sports_esports
-                <span>Juegos</span>
+              <span className="ml-1 text-xl">Juegos</span>
             </Link>     
-          </div>
+       
+        
         </div>
 
           <div className="bg-slate-800 w-screen rounded-xl">

@@ -31,35 +31,29 @@ export const PerfilModal = () => {
         <div ref={modalRef}>
             <button 
                 onClick={toggleProfileModal}
-                className="h-fit material-symbols-outlined"
+                className="flex items-center material-symbols-outlined"
                 >person
             </button>
 
             {modalOpen &&
-                <div  className="bg-slate-700 top-16 right-0 z-20 p-2 mr-2 fixed rounded-xl border border-slate-600">    
-                    <div onClick={toggleProfileModal} className="h-fit">
-                        <div>
-                            <Link 
-                                className=" material-symbols-outlined text-xl text-slate-300" to={'/admin/perfil'}>
-                            person
-                            <span>Cuenta</span>
-                            </Link>     
-                        </div>
-                        <div>
-                            <Link className="material-symbols-outlined text-xl text-slate-300" to={'/admin/desarrollador'}>
-                            sports_esports
-                                <span>Juegos</span>
-                            </Link>     
-                        </div>
-                        <div>
-                            <button 
-                                className="material-symbols-outlined text-slate-300 text-xl"
-                                onClick={cerrarSesion}
-                                >logout
-                                <span className="">Cerrar Sesión</span>
-                            </button>
-                        </div>
-                    </div>
+                <div onClick={toggleProfileModal} className="bg-slate-700 top-16 right-0 z-20 p-2 mr-2 fixed rounded-xl border border-slate-600">       
+                    <Link 
+                        className="material-symbols-outlined flex items-center text-xl text-slate-300" to={'/admin/perfil'}>
+                    person
+                        <span className="ml-1">Cuenta</span>
+                    </Link>     
+                
+                    <Link className="material-symbols-outlined flex items-center text-xl text-slate-300" to={'/admin/desarrollador'}>
+                    sports_esports
+                        <span className="ml-1">Juegos</span>
+                    </Link>     
+                
+                    <button 
+                        className="material-symbols-outlined flex items-center  text-slate-300 text-xl"
+                        onClick={cerrarSesion}
+                            >logout
+                        <span className="ml-1">Cerrar Sesión</span>
+                    </button>                    
                 </div>
             }
         </div>
