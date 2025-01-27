@@ -34,10 +34,7 @@ const AuthProvider = ({children}) => {
         autenticarUsuario();
     }, []);
 
-    const actualizarUsuario = async (user) => {
-        console.log("Actualizando Usuario!");
-
-        
+    const actualizarUsuario = async (user) => {        
         const token = localStorage.getItem('token');
         if(token){
             const config = {

@@ -70,11 +70,12 @@ export const AdminCambiarPassword = () => {
     };
 
     return (
-        <div>
-    
+        <div className="w-1/2 p-4 rounded-xl bg-slate-800">
+            <h1 className="text-center text-3xl text-slate-300 mt-5">Cambia tu <span className="font-bold">Contraseña</span></h1>
+
             {alertaMsg && <Alerta tipo={success} msg={alertaMsg} /> }
          
-            <form onSubmit={handleSubmit}>
+            <form className="mt-4" onSubmit={handleSubmit}>
                 {/* Contraseña Actual */}
                 <div className="mb-6">
                     <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-300 mb-2">
@@ -122,7 +123,8 @@ export const AdminCambiarPassword = () => {
                         id="confirmPassword"
                         className="w-full px-4 py-3 border border-gray-600 rounded-lg bg-slate-800 text-white"
                     />
-            {alertas.confPass && <p className="text-sm text-red-500 mt-1">{alertas.confPass}</p>}
+                    
+                    {alertas.confPass && <p className="text-sm text-red-500 mt-1">{alertas.confPass}</p>}
 
                 </div>
 

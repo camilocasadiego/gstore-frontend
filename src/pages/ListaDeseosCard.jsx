@@ -22,7 +22,7 @@ export const ListaDeseosCard = ({juego}) => {
         // Verificar si el juego existe en la biblioteca
         setGuardadoBiblioteca(existeJuego(compras, id));
        
-    }, []);
+    }, [carrito, compras]);
 
     const handleBotonCarrito = () => {
         if(!guardadoCarrito){
