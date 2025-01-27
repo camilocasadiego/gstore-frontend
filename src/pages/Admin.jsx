@@ -27,13 +27,15 @@ export const Admin = () => {
         
         </div>
 
-          <div className="bg-slate-800 w-screen rounded-xl">
-            <Outlet />  
-          </div>
+
+        <div className="w-screen flex justify-center">
+          
+              <Outlet />  
+          
         </div>
+
       </div>
- 
-    
+    </div>
   )
 }
 

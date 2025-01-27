@@ -20,9 +20,9 @@ export const Desarrollador = () => {
     }, []);
 
     return (
-        <div>
+        <div className="w-full p-4 rounded-xl bg-slate-800">
             <div className="flex"> 
-                <div className=" w-full">
+                <div className="w-full">
                     <h1 className="text-center text-3xl text-slate-300 mt-5">Administración de <span className="font-bold">Juegos</span></h1>
                 </div>          
              
@@ -36,7 +36,7 @@ export const Desarrollador = () => {
                 {juegos.map(juego => (
                     <li
                         key={juego.id}
-                        className="flex justify-between items-center p-3 mb-3 bg-slate-800 hover:bg-slate-700 rounded-lg shadow-md transition duration-300 ease-in-out"
+                        className="flex justify-between items-center p-3 mb-1 bg-slate-800 rounded-lg hover:bg-slate-700 shadow-md transition duration-300 ease-in-out"
                         >
                         {/* Imagen del juego */}
                         <div className="ml-3 mr-3">

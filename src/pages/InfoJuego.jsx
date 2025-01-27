@@ -7,9 +7,10 @@ import useAuth from "../hooks/useAuth";
 import useJuegos from "../hooks/useJuegos";
 import { existeJuego } from "../helpers/existeJuego";
 import { formatearFecha } from "../helpers/formatearFecha";
-const imagenPath = `${import.meta.env.VITE_BACKEND_URL}/uploads`;
 
 export const InfoJuego = () => {
+  const imagenPath = `${import.meta.env.VITE_BACKEND_URL}/uploads`;
+  
   const { id } = useParams();
   const [juego, setJuego] = useState([]);
   const [cargandoJuego, setCargandoJuego] = useState(true);

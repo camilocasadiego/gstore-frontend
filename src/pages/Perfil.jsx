@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import clienteAxios from "../config/axios";
 
@@ -9,6 +9,11 @@ export const Perfil = () => {
 
   const [usuario, setUsuario] = useState('');
   const [correo, setCorreo] = useState('');
+
+  const disableSubmit = useMemo(() => {
+    
+    return (!usuario || !correo);
+  }, [usuario, correo]);
 
   useEffect(() => {
     setUsuario(auth.usuario);
@@ -84,10 +89,10 @@ export const Perfil = () => {
   }
     
   return (
-    <div>
+    <div className="w-1/2 p-4 rounded-xl bg-slate-800">
       <h1 className="text-center text-3xl text-slate-300 mt-5">Configuración de <span className="font-bold">Perfil</span></h1>
       
-      <form onSubmit={handleSubmit}>
+      <form className="mt-4" onSubmit={handleSubmit}>
          {/* Descripción */}
         <div className="mb-6">
           <label htmlFor="username" className="block text-sm font-medium text-gray-300 mb-2">
@@ -125,13 +130,13 @@ export const Perfil = () => {
 
         </div>
 
-        <div>
-          <button 
+        <button
             type="submit"
-            className="bg-blue-900">
-            Guardar cambios
-          </button>
-        </div>
+            className={`w-full px-6 py-3 mt-4 rounded-lg font-semibold ${disableSubmit ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-500'}`}
+            disabled={disableSubmit}
+        >
+            Actualizar
+        </button>
       </form>
     </div>
   )
