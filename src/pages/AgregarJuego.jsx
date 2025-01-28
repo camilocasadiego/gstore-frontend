@@ -153,7 +153,7 @@ export const AgregarJuego = () => {
         console.log("Cargando...");
     }else{
         return (
-            <div className="max-w-2xl mx-auto p-6 bg-slate-900 rounded-lg shadow-xl">
+            <div className="w-full mx-auto p-6 bg-slate-800 rounded-lg shadow-xl">
                 <h1 className="text-center text-3xl text-slate-200 font-bold mb-6">Agregar Juego</h1>
 
                 {alertas.success && (

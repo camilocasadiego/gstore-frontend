@@ -12,12 +12,16 @@ export const Desarrollador = () => {
         
     const {generos, obtenerGeneros} = useJuegos();
 
-    const {eliminarJuego, obtenerJuegos, juegos} = useDesarrollador();
+    const {ocultarJuego, obtenerJuegos, juegos} = useDesarrollador();
     
     useEffect(() => {
         obtenerGeneros();
         obtenerJuegos();
     }, []);
+
+    const handleOcultar = () => {
+        
+    }
 
     return (
         <div className="w-full p-4 rounded-xl bg-slate-800">
@@ -77,10 +81,14 @@ export const Desarrollador = () => {
                             </button>
                             <button
                                 className="material-symbols-outlined text-slate-300 hover:text-red-500"
-                                onClick={() => eliminarJuego(juego.id)}
+                                onClick={() => {
+                                        ocultarJuego(juego.id)
+                                        handleOcultar();
+                                    }
+                                }
                                 aria-label={`Eliminar ${juego.nombre}`}
                             >
-                                delete
+                                {juego.oculto ? 'visibility_off' : 'visibility'}
                             </button>
                         </div>
                     </li>

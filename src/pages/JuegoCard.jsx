@@ -11,7 +11,7 @@ import imagen10 from '../assets/images/img_10.jpg'
 
 import { useNavigate } from 'react-router-dom';
 import { formatearPrecio } from '../helpers/formatearPrecio';
-import { useEffect } from 'react'
+
 const imagenPath = `${import.meta.env.VITE_BACKEND_URL}/uploads`;
 
 export const JuegoCard = ({juego}) => {
