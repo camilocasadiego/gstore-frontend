@@ -6,7 +6,7 @@ import { formatearPrecio } from "../helpers/formatearPrecio";
 import clienteAxios from "../config/axios";
 
 export const Carrito = () => {
-    const {carrito, setCarrito, setCompras} = useJuegos();
+    const {obtenerCarrito, carrito, setCarrito, setCompras} = useJuegos();
     const [totalCarrito, setTotalCarrito] = useState(0);
     
     const calTotalCarrito = () => {
@@ -41,6 +41,12 @@ export const Carrito = () => {
 
     useEffect(() => {
         calTotalCarrito();
+
+        const obtenerCarritoActual = async () => {
+            await obtenerCarrito();
+        }
+
+        obtenerCarritoActual();
     }, [carrito])
 
     return (

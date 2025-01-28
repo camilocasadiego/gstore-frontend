@@ -1,9 +1,18 @@
 
+import { useEffect } from "react";
 import useJuegos from "../hooks/useJuegos";
 import ListaDeseosCard from "./ListaDeseosCard";
 
 export const ListaDeseos = () => {
-    const {listaDeseos} = useJuegos();
+    const {obtenerListaDeseos, listaDeseos} = useJuegos();
+
+    useEffect(() => {
+        const obtenerLista = async () => {
+            await obtenerListaDeseos();
+        }
+
+        obtenerLista();
+    }, [])
     return (
         <>
         <div className="bg-slate-900 min-h-screen pt-20">

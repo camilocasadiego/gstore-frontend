@@ -34,6 +34,7 @@ export const PaginaPrincipal = () => {
     const obtenerUltimosJuegos = async () => {
         // TODO: Organizar el link del backend
         const {data} = await clienteAxios.get(`/juegos/ultimos-juegos?page=0&limit=12`);
+        console.log(data);
         setUltimosJuegos(data.rows);
     }
 

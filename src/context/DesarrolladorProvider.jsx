@@ -176,6 +176,23 @@ const DesarrolladorProvider = ({children}) => {
         }
     }
 
+    const ocultarJuego = async (id) => {
+        const token = localStorage.getItem('token');
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        }
+        
+        try {
+            const {data} = await clienteAxios.post(`/desarrollador/ocultar-juego/${id}`, {}, config);
+            setJuegos(juegos => juegos.map(juego => juego.id === data.id ? {...juego, oculto: !juego.oculto} : juego ));
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <DesarrolladorContext.Provider
         value={{
@@ -185,7 +202,8 @@ const DesarrolladorProvider = ({children}) => {
             obtenerJuegos,
             agregarJuego,
             editarJuego,
-            eliminarJuego
+            eliminarJuego,
+            ocultarJuego
         }}
     >
         {children}
