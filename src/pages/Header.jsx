@@ -25,12 +25,14 @@ export const Header = () => {
 
                     {/* Menú de navegación */}
                     <div className="flex gap-8 items-center justify-center mr-4">
-                        <div className="flex space-x-5">
-                            <Link className="material-symbols-outlined h-fit" to={'/biblioteca'}>sports_esports</Link>     
-                            <Link className="material-symbols-outlined h-fit" to={'/lista_deseos'}>bookmark</Link>     
-                            <Link className="material-symbols-outlined h-fit" to={'/carrito'}>shopping_cart</Link>     
-                            <PerfilModal/>
-                        </div>
+                        {Object.keys(auth).length !== 0 && 
+                            <div className="flex space-x-5">
+                                <Link className="material-symbols-outlined h-fit" to={'/biblioteca'}>sports_esports</Link>     
+                                <Link className="material-symbols-outlined h-fit" to={'/lista_deseos'}>bookmark</Link>     
+                                <Link className="material-symbols-outlined h-fit" to={'/carrito'}>shopping_cart</Link>     
+                                <PerfilModal/>
+                            </div>
+                        }
                                         
                         {Object.keys(auth).length === 0 &&
                             <Link className="" to={'/login'}>Iniciar Sesión</Link>     
