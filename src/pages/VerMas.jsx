@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import clienteAxios from "../config/axios";
 import { useEffect, useState } from "react";
-import Juego from "./JuegoCard";
+import Juego, { JuegoCard } from "./JuegoCard";
 import Header from "./Header";
 
 export const VerMas = () => {
@@ -38,11 +38,11 @@ export const VerMas = () => {
         <>        
             <Header/>
             <div className="bg-slate-900 pt-20">
-                <h1 className="text-3xl font-semibold p-6 text-white">{genero === 'ultimos-juegos' ? "Últimos Juegos" : genero}</h1>
+                <h1 className="text-3xl font-semibold p-8 text-white">{genero === 'ultimos-juegos' ? "Últimos Juegos" : genero}</h1>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
                     {juegos.map(juego => (
-                        <Juego 
+                        <JuegoCard 
                             key={juego.id}
                             juego={juego}
                         />
