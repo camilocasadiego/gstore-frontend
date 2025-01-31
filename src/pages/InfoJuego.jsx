@@ -1,12 +1,22 @@
+// Hooks de React
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+
+// Importación de una imagen de prueba
 import imagen_prueba from '../assets/images/img_1.jpg'
+
+// Componentes
 import Header from "./Header";
+
+// Funciones
 import { formatearPrecio } from "../helpers/formatearPrecio";
-import useAuth from "../hooks/useAuth";
-import useJuegos from "../hooks/useJuegos";
 import { existeJuego } from "../helpers/existeJuego";
 import { formatearFecha } from "../helpers/formatearFecha";
+
+// Hooks personalizados
+import useAuth from "../hooks/useAuth";
+import useJuegos from "../hooks/useJuegos";
+import { Spinner } from "../components/Spinner";
 
 export const InfoJuego = () => {
   const imagenPath = `${import.meta.env.VITE_BACKEND_URL}/uploads`;
@@ -100,8 +110,7 @@ export const InfoJuego = () => {
   }
   
     if( cargandoJuego && cargandoLista && cargandoCarrito){
-      // Agregar spinner
-      return 'cargando...'
+      return (<Spinner/>)
     }else{
       return (
         <>     

@@ -6,18 +6,18 @@ import 'swiper/css/navigation';
 
 import { useEffect, useState } from 'react';
 import clienteAxios from '../config/axios';
-import Juego from './JuegoCard';
+import JuegoCard from './JuegoCard';
 import { obtenerSlides } from "../helpers/obtenerSlides";
 
 export const ListadoJuegos = ({genero}) => {
 
-  const [juegos, setJuego] = useState([]);
+  const [juegos, setJuegos] = useState([]);
 
   useEffect(() => {
     const filtrarJuegos = async () => {
       try {
         const {data} = await clienteAxios.get(`/juegos/genero/${genero}`)
-        setJuego(data);
+        setJuegos(data);
       } catch (error) {
         console.log(error)
       }
@@ -42,41 +42,42 @@ export const ListadoJuegos = ({genero}) => {
     };
   }, []);
   
-  return (
-    
-    <>
-      <div className="flex justify-between bg-gray-900 p-8 items-center">
-        <h1 className="text-3xl font-semibold text-white">{genero}</h1>
+  if(juegos.length !== undefined){
+    return (
+      <>
 
-          <a 
-            href={`/genero/${genero}`}
-            className="text-white hover:text-blue-700 transition-colors duration-200 text-lg font-medium"
+        <div className="flex justify-between p-8 items-center">
+            <h1 className="text-3xl font-semibold text-white">{genero}</h1>
+            <a 
+                href={`/genero/${genero}`}
+                className="text-white hover:text-blue-700 transition-colors duration-200 text-lg font-medium"
             >
-              Ver Más
-          </a>
+                Ver Más
+            </a>
+        </div> 
 
-      </div>
+        <div>
+          <Swiper
+            // install Swiper modules
+            modules={[Navigation]}
+            spaceBetween={10}
+            slidesPerView={slides}
+            navigation
+            pagination={{ clickable: true }}
+            scrollbar={{ draggable: true }}
+          >
+            {juegos.map(juego => (
+              <SwiperSlide key={juego.id}>
+                <JuegoCard juego={juego}/>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>   
 
-      <div>
-        <Swiper
-          // install Swiper modules
-          modules={[Navigation]}
-          spaceBetween={25}
-          slidesPerView={slides}
-          navigation
-          pagination={{ clickable: true }}
-          scrollbar={{ draggable: true }}
-        >
-          {juegos.map(juego => (
-            <SwiperSlide key={juego.id}>
-              <Juego juego={juego}/>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-    </>
 
-  )
+      </>
+    )
+  }
 }
 
 export default ListadoJuegos;

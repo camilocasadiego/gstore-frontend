@@ -21,10 +21,10 @@ import Biblioteca from './pages/Biblioteca'
 import { ConfirmarCuenta } from './pages/ConfirmarCuenta'
 import { CambiarPassword } from './pages/CambiarPassword'
 import { AdminCambiarPassword } from './pages/AdminCambiarPassword'
+import { InicioLayout } from './pages/InicioLayout'
 
 
 function App() {
-
 
   return (
     <BrowserRouter>
@@ -39,9 +39,11 @@ function App() {
               <Route path='/recuperar-cuenta' element={<RecuperarCuenta/>} />
               <Route path='/cambiar-password/:token' element={<CambiarPassword/>}/>
 
-              <Route path='/' element={<PaginaPrincipal/>}/>
-              <Route path='/juegos/:id' element={<InfoJuego/>}/>
-              <Route path='/genero/:genero' element={<VerMas/>}/>
+              <Route path= '/' element={<InicioLayout/>}>
+                <Route index path='/' element={<PaginaPrincipal/>}/>
+                <Route path='/juegos/:id' element={<InfoJuego/>}/>
+                <Route path='/genero/:genero' element={<VerMas/>}/>
+              </Route>
 
               {/* Rutas Protegidas */}
               <Route path='/' element={<RutaProtegida/>}>
