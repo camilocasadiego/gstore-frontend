@@ -1,8 +1,9 @@
 import { useParams } from "react-router-dom";
 import clienteAxios from "../config/axios";
-import { useEffect, useState } from "react";
-import Juego, { JuegoCard } from "./JuegoCard";
+import { useEffect, useMemo, useState } from "react";
+import { JuegoCard } from "./JuegoCard";
 import Header from "./Header";
+import { Spinner } from "../components/Spinner";
 
 export const VerMas = () => {
 
@@ -19,44 +20,66 @@ export const VerMas = () => {
     }, []);
 
     const consultarJuegos = async () => {
+        console.log("Consultando...")
         try {
             if(genero === 'ultimos-juegos'){
                 const {data} = await clienteAxios.get(`/juegos/${genero}?page=${page}&limit=${limiteJuegos}`);
-                setPage((prevPage) => prevPage + 1);
+                // TODO: Descomentar esto!
+                // setPage((prevPage) => prevPage + 1);
                 setExistJuegos(page < Math.floor(data.count / limiteJuegos));
-                setJuegos((prevJuegos) => [...prevJuegos, ...data.rows]);
+                setJuegos(data);
             }else{
                 const {data} = await clienteAxios.get(`/juegos/generos/${genero}?page=${page}&limit=${limiteJuegos}`);
-                setJuegos((prevJuegos) => [...prevJuegos, ...data.rows]);
+                setJuegos(data);
             }
         } catch (error) {
             console.log(error)
         }
     }
-    
-    return (
-        <>        
-            <Header/>
-            <div className="bg-slate-900 pt-20">
-                <h1 className="text-3xl font-semibold p-8 text-white">{genero === 'ultimos-juegos' ? "Últimos Juegos" : genero}</h1>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-                    {juegos.map(juego => (
-                        <JuegoCard 
-                            key={juego.id}
-                            juego={juego}
-                        />
-                    ))}
-                </div>
-                
-                <div className="text-center pb-6 text-white bg-slate-900">
-                    {existJuegos && (
-                        <button className="bg-slate-800 p-3 rounded" onClick={consultarJuegos}>Ver Más</button>
+    const paginaCargada = useMemo(() => {
+        return (
+            juegos.count !== undefined
+        )
+    }, [juegos]);
+    
+    if( paginaCargada ){
+        return (
+            <>        
+                <Header/>
+                <div className="bg-slate-900 pt-20 h-max">
+                    {juegos.rows.length !== 0 ? (
+                        <>
+                            <h1 className="text-3xl font-semibold p-8 text-white">{genero === 'ultimos-juegos' ? "Últimos Juegos" : genero}</h1>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+                                {juegos.rows.map(juego => (
+                                    <JuegoCard 
+                                    key={juego.id}
+                                    juego={juego}
+                                    />
+                                ))}
+                            </div>
+                        </>
+                    ) : (
+                        <div className="h-screen flex flex-col text-center items-center justify-center bg-slate-900 text-white pb-20">
+                            <p className="text-2xl font-semibold text-gray-300 animate-pulse">
+                                No hay juegos disponibles para este género.
+                            </p>
+                        </div>
                     )}
+                    
+                    <div className="text-center pb-6 text-white bg-slate-900">
+                        {existJuegos && (
+                            <button className="bg-slate-800 p-3 rounded" onClick={consultarJuegos}>Ver Más</button>
+                        )}
+                    </div>
                 </div>
-            </div>
-        </>
-    )
+            </>
+        )
+    }else{
+        return (<Spinner/>)
+    }
+   
 }
 
 export default VerMas;
