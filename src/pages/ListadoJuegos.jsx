@@ -16,7 +16,7 @@ export const ListadoJuegos = ({genero}) => {
   useEffect(() => {
     const filtrarJuegos = async () => {
       try {
-        const {data} = await clienteAxios.get(`/juegos/genero/${genero}`)
+        const {data} = await clienteAxios.get(`/juegos/genero/${genero}`);
         setJuegos(data);
       } catch (error) {
         console.log(error)
@@ -42,7 +42,7 @@ export const ListadoJuegos = ({genero}) => {
     };
   }, []);
   
-  if(juegos.length !== undefined){
+  if(juegos.length !== 0){
     return (
       <>
 

@@ -27,7 +27,7 @@ export const JuegoCard = ({juego}) => {
 
   return (
     <>
-      <div className="cursor-pointer max-w-sm rounded-lg shadow-lg bg-slate-900 overflow-hidden mb-10 ml-10">
+      <div className="cursor-pointer max-w-sm rounded-lg shadow-lg bg-slate-900 overflow-hidden mb-10">
           <div 
             onClick={() => navigate(`/juegos/${id}`)}>
           
