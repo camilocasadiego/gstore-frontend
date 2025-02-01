@@ -13,7 +13,6 @@ export const Header = () => {
 
     const toggleSidebar = () => {
         setSideBar(!sidebar);
-        console.log(sidebar);
     }
     return (
         <>
@@ -25,7 +24,7 @@ export const Header = () => {
                             <Link to={'/'} className="hover:text-gray-300">GStore</Link>
                         </h1>
 
-                        <div className="absolute top-5 left-28 w-[34vh] sm:w-64">
+                        <div className="absolute top-5 left-28 w-[26vh] sm:w-64">
                             <SearchBar />
                         </div>
                         
@@ -49,7 +48,7 @@ export const Header = () => {
 
                     <div className="md:hidden">
                         <button 
-                            className="text-gray-300 focus:outline-none"
+                            className="text-gray-300 bg-transparent focus:outline-none"
                             onClick={toggleSidebar}
                         >
                             <svg

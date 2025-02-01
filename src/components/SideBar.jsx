@@ -3,7 +3,7 @@ import useAuth from "../hooks/useAuth";
 
 export const SideBar = ({isOpen, toggleSidebar}) => {
 
-    const {cerrarSesion} = useAuth();
+    const {auth, cerrarSesion} = useAuth();
     
     return (
         <div
@@ -12,39 +12,46 @@ export const SideBar = ({isOpen, toggleSidebar}) => {
             <div className="p-4 h-full">
                 <button onClick={toggleSidebar} className="text-2xl">&times;</button>
                 <h2 className="text-lg mt-4">Menú</h2>
-                <ul className="mt-6 h-full">
-                    <div className="h-2/3">
-                        <li>
-                            <Link to={'/admin/perfil'} className="py-2 px-4 flex items-center">
-                                <span className="material-symbols-outlined mr-1">person</span>Perfil
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to={'/carrito'} className="py-2 px-4 flex items-center">
-                                <span className="material-symbols-outlined mr-1">shopping_cart</span>Carrito
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to={'/lista_deseos'} className="py-2 px-4 flex items-center">
-                                <span className="material-symbols-outlined mr-1">bookmark</span>Lista de Deseos
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to={'/biblioteca'} className="py-2 px-4 flex items-center">
-                                <span className="material-symbols-outlined mr-1">sports_esports</span>Biblioteca
-                            </Link>
-                        </li>
-                    </div>
+                
+                {Object.keys(auth).length !== 0 ? (   
+                    <ul className="mt-6 h-full">
+                        <div className="h-2/3">
+                            <li>
+                                <Link to={'/admin/perfil'} className="py-2 px-4 flex items-center">
+                                    <span className="material-symbols-outlined mr-1">person</span>Perfil
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to={'/carrito'} className="py-2 px-4 flex items-center">
+                                    <span className="material-symbols-outlined mr-1">shopping_cart</span>Carrito
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to={'/lista_deseos'} className="py-2 px-4 flex items-center">
+                                    <span className="material-symbols-outlined mr-1">bookmark</span>Lista de Deseos
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to={'/biblioteca'} className="py-2 px-4 flex items-center">
+                                    <span className="material-symbols-outlined mr-1">sports_esports</span>Biblioteca
+                                </Link>
+                            </li>
+                        </div>
 
-                    <div className="h-1/3">  
-                        <hr className="border-gray-300 my-4" />
-                        <li className="mt-auto" onClick={cerrarSesion}>
-                            <Link to={'/biblioteca'} className="py-2 px-4 flex items-center">
-                                <span className="material-symbols-outlined mr-1">logout</span>Cerrar Sesión
-                            </Link>
-                        </li>
+                        <div className="h-1/3">  
+                            <hr className="border-gray-300 my-4" />
+                            <li className="mt-auto" onClick={cerrarSesion}>
+                                <Link to={'/biblioteca'} className="py-2 px-4 flex items-center">
+                                    <span className="material-symbols-outlined mr-1">logout</span>Cerrar Sesión
+                                </Link>
+                            </li>
+                        </div>
+                    </ul>
+                ) : (
+                    <div className="mt-6">
+                        <Link className="" to={'/login'}>Iniciar Sesión</Link>     
                     </div>
-                </ul>
+                )}
             </div>
         </div>
     );
