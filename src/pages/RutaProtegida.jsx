@@ -13,7 +13,7 @@ export const RutaProtegida = () => {
             <>
             <Header/>
                     {auth?.id ? (
-                        <div className="bg-slate-900 mt-20 w-screen min-h-screen">
+                        <div className="bg-slate-900 mt-20 w-full min-h-screen">
                             <Outlet />  
                         </div>
                     ): <Navigate to="/" /> }

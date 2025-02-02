@@ -17,22 +17,22 @@ export const SideBar = ({isOpen, toggleSidebar}) => {
                     <ul className="h-full">
                         <div className="h-3/4">
                             <li>
-                                <Link to={'/admin/perfil'} className="py-2 px-4 flex items-center">
+                                <Link to={'/admin/perfil'} className="py-2 px-4 flex items-center" onClick={toggleSidebar}>
                                     <span className="material-symbols-outlined mr-1">person</span>Perfil
                                 </Link>
                             </li>
                             <li>
-                                <Link to={'/carrito'} className="py-2 px-4 flex items-center">
+                                <Link to={'/carrito'} className="py-2 px-4 flex items-center" onClick={toggleSidebar}>
                                     <span className="material-symbols-outlined mr-1">shopping_cart</span>Carrito
                                 </Link>
                             </li>
                             <li>
-                                <Link to={'/lista_deseos'} className="py-2 px-4 flex items-center">
+                                <Link to={'/lista_deseos'} className="py-2 px-4 flex items-center" onClick={toggleSidebar}>
                                     <span className="material-symbols-outlined mr-1">bookmark</span>Lista de Deseos
                                 </Link>
                             </li>
                             <li>
-                                <Link to={'/biblioteca'} className="py-2 px-4 flex items-center">
+                                <Link to={'/biblioteca'} className="py-2 px-4 flex items-center" onClick={toggleSidebar}>
                                     <span className="material-symbols-outlined mr-1">sports_esports</span>Biblioteca
                                 </Link>
                             </li>

@@ -75,13 +75,13 @@ export const Desarrollador = () => {
                         <div className="w-fit flex space-x-2 pl-2 pr-2">
                             <button
                                 onClick={() => navigate(`/admin/desarrollador/${juego.id}`)}
-                                className="material-symbols-outlined bg-transparent text-slate-300 hover:text-blue-500"
+                                className="material-symbols-outlined bg-transparent text-slate-300 md:hover:text-blue-500"
                                 aria-label={`Editar ${juego.nombre}`}
                             >
                                 edit
                             </button>
                             <button
-                                className="material-symbols-outlined bg-transparent text-slate-300 hover:text-red-500"
+                                className="material-symbols-outlined bg-transparent text-slate-300 md:hover:text-red-500"
                                 onClick={() => {
                                         ocultarJuego(juego.id)
                                         handleOcultar();

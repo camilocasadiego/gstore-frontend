@@ -12,9 +12,9 @@ export const BibliotecaCard = ({juego}) => {
             {/* Imagen, nombre, precio (evento click) */}
             <div 
                 onClick={() => navigate(`/juegos/${id}`)}
-                className="flex-shrink-0 w-64 h-48 m-3 rounded-lg shadow-lg hover:shadow-inner">
+                className="flex-shrink-0 md:w-64 md:h-48 mx-auto p-3 h-40 w-28 m-3 rounded-lg hover:shadow-inner">
                     <img
-                    className="w-full h-full object-cover rounded-lg cursor-pointer"
+                    className="h-full w-full object-cover rounded-lg cursor-pointer"
                     src={imagen_prueba}
                     alt="Producto"
                     />
