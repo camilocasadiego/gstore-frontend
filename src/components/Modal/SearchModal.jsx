@@ -4,7 +4,7 @@ export const SearchModal = ({juegos}) => {
     
     return (
         <>
-            <div className="bg-slate-700 rounded-xl mt-2 sm:w-96 w-[40vh]">
+            <div className="bg-slate-700 rounded-xl mt-2 sm:w-96">
                 {juegos.map(juego => (
                     <SearchList
                         key={juego.id}
