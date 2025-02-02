@@ -13,9 +13,9 @@ export const RutaProtegida = () => {
             <>
             <Header/>
                     {auth?.id ? (
-                        
-                        <Outlet />  
-                        
+                        <div className="bg-slate-900 mt-20 w-screen min-h-screen">
+                            <Outlet />  
+                        </div>
                     ): <Navigate to="/" /> }
             
             {/* <Footer/> */}

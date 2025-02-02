@@ -24,7 +24,7 @@ export const Desarrollador = () => {
     }
 
     return (
-        <div className="w-full p-4 rounded-xl bg-slate-800">
+        <>
             <div className="flex"> 
                 <div className="w-full">
                     <h1 className="text-center text-3xl text-slate-300 mt-5">Administración de <span className="font-bold">Juegos</span></h1>
@@ -32,18 +32,19 @@ export const Desarrollador = () => {
              
                 <button 
                     onClick={() => navigate('agregar-juego')}
-                    className="mr-3 justify-end material-symbols-outlined text-3xl text-slate-300 mt-5 font-bold">add</button>
-                
+                    className="bg-transparent mr-3 justify-end material-symbols-outlined text-3xl text-slate-300 mt-5 font-bold">
+                add
+                </button> 
             </div>
 
             <ul className="mt-3">
                 {juegos.map(juego => (
                     <li
                         key={juego.id}
-                        className="flex justify-between items-center p-3 mb-1 bg-slate-800 rounded-lg hover:bg-slate-700 shadow-md transition duration-300 ease-in-out"
-                        >
+                        className="md:flex block justify-between items-center p-3 mb-1 bg-slate-800 rounded-lg hover:bg-slate-700 shadow-md transition duration-300 ease-in-out"
+                    >
                         {/* Imagen del juego */}
-                        <div className="ml-3 mr-3">
+                        <div className="md:ml-3 md:mr-3">
                             <img
                                 onClick={() => navigate(`/juegos/${juego.id}`)}
                                 src={juego.imagen ? `${imagenPath}/${juego.imagen}` : imagen_prueba}
@@ -74,13 +75,13 @@ export const Desarrollador = () => {
                         <div className="w-fit flex space-x-2 pl-2 pr-2">
                             <button
                                 onClick={() => navigate(`/admin/desarrollador/${juego.id}`)}
-                                className="material-symbols-outlined text-slate-300 hover:text-blue-500"
+                                className="material-symbols-outlined bg-transparent text-slate-300 hover:text-blue-500"
                                 aria-label={`Editar ${juego.nombre}`}
                             >
                                 edit
                             </button>
                             <button
-                                className="material-symbols-outlined text-slate-300 hover:text-red-500"
+                                className="material-symbols-outlined bg-transparent text-slate-300 hover:text-red-500"
                                 onClick={() => {
                                         ocultarJuego(juego.id)
                                         handleOcultar();
@@ -94,7 +95,7 @@ export const Desarrollador = () => {
                     </li>
                 ))}
             </ul>
-        </div>
+        </>
     )
 }
 

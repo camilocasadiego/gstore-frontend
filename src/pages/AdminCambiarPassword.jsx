@@ -70,7 +70,7 @@ export const AdminCambiarPassword = () => {
     };
 
     return (
-        <div className="w-1/2 p-4 rounded-xl bg-slate-800">
+        <>
             <h1 className="text-center text-3xl text-slate-300 mt-5">Cambia tu <span className="font-bold">Contraseña</span></h1>
 
             {alertaMsg && <Alerta tipo={success} msg={alertaMsg} /> }
@@ -136,6 +136,6 @@ export const AdminCambiarPassword = () => {
                     Actualizar
                 </button>
             </form>
-        </div>
+        </>
     );
 };
