@@ -48,7 +48,6 @@ export const SearchBar = () => {
     
     return (
     <>     
-    <div >
         <div ref={searchRef} className="flex p-2 rounded-xl space-x-3 sm:hover:bg-slate-600 bg-slate-700">
             <span 
                 className="material-symbols-outlined"
@@ -61,15 +60,14 @@ export const SearchBar = () => {
                 className="focus:outline-none bg-transparent w-full h-full" type="text"/>
         </div>
         <div onClick={() => setBusqueda('')}>
-        {
-            busqueda && modalActivo ?
-            Object.keys(juegos).length !== 0 
-            ? <SearchModal juegos={juegos} />
-            : <p>No hay juegos disponibles</p>
-            : ''
-        }
+            {
+                busqueda && modalActivo ?
+                Object.keys(juegos).length !== 0 
+                ? <SearchModal juegos={juegos} />
+                : <p>No hay juegos disponibles</p>
+                : ''
+            }
         </div> 
-        </div>
     </>
     )
 

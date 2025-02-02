@@ -9,7 +9,6 @@ export const Admin = () => {
 
   const toggleSidebar = () => {
     setSidebar(!sidebar);
-    console.log(sidebar);
   }
 
   return (
