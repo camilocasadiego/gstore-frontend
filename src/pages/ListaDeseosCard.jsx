@@ -37,9 +37,9 @@ export const ListaDeseosCard = ({juego}) => {
             {/* Imagen, nombre, precio (evento click) */}
             <div 
                 onClick={() => navigate(`/juegos/${id}`)}
-                className="flex-shrink-0 w-64 h-48 m-3 rounded-lg shadow-lg hover:shadow-inner">
+                className="flex-shrink-0 md:w-64 md:h-48 mx-auto p-3 h-40 w-28 m-3 rounded-lg hover:shadow-inner">
                     <img
-                    className="w-full h-full object-cover rounded-lg cursor-pointer"
+                    className="h-full w-full object-cover rounded-lg cursor-pointer"
                     src={imagen_prueba}
                     alt="Producto"
                     />
@@ -56,7 +56,7 @@ export const ListaDeseosCard = ({juego}) => {
                 <div className="flex space-x-5 justify-end mt-4">
                     <button
                         onClick={() => eliminarListaDeseos(Number(id))}
-                        className="text-center text-slate-300 p-2 hover:text-slate-50"
+                        className="text-center bg-transparent text-slate-300 p-2 hover:text-slate-50"
                         >
                         Eliminar
                     </button>

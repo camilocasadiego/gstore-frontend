@@ -25,12 +25,12 @@ export const Biblioteca = () => {
 
   return (
     <>
-      <div className="bg-slate-900 min-h-screen pt-20">
+      <div className="bg-slate-900 min-h-screen p-4">
           <h1 className="text-4xl text-white text-center mb-6 mt-4">Biblioteca</h1>
           
           <ul>
               {compras.length > 0 ? (
-                  <div className="ml-20 mr-20">
+                  <>
                       {compras.map((juego) => (
                           <>
                               <li>
@@ -38,7 +38,7 @@ export const Biblioteca = () => {
                               </li>
                           </>
                       ))}
-                  </div>
+                  </>
               ) : (
                   <p className="text-gray-300 text-center text-lg mt-10">
                   Tu biblioteca está vacía. ¡Agrega juegos para comenzar!
