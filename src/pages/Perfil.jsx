@@ -89,8 +89,8 @@ export const Perfil = () => {
   }
     
   return (
-    <div className="w-1/2 p-4 rounded-xl bg-slate-800">
-      <h1 className="text-center text-3xl text-slate-300 mt-5">Configuración de <span className="font-bold">Perfil</span></h1>
+    <>
+      <h1 className="text-center text-3xl text-slate-300 mt-5">Configura tu <span className="font-bold">Perfil</span></h1>      
       
       <form className="mt-4" onSubmit={handleSubmit}>
          {/* Descripción */}
@@ -138,7 +138,7 @@ export const Perfil = () => {
             Actualizar
         </button>
       </form>
-    </div>
+    </>
   )
 }
 
