@@ -1,8 +1,5 @@
 import { useEffect } from "react";
 import useJuegos from "../hooks/useJuegos";
-import imagen_prueba from '../assets/images/img_1.jpg';
-import { formatearPrecio } from "../helpers/formatearPrecio";
-import { useNavigate } from "react-router-dom";
 import BibliotecaCard from "./BibliotecaCard";
 
 export const Biblioteca = () => {

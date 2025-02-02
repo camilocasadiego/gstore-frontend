@@ -5,8 +5,9 @@ import useJuegos from '../hooks/useJuegos';
 import { useEffect, useState } from 'react';
 
 export const CarritoCard = ({juego}) => {
+    const imagenPath = `${import.meta.env.VITE_BACKEND_URL}/uploads`;
     
-    const {id, nombre, precio} = juego;
+    const {id, nombre, imagen, precio} = juego;
     const genero = juego.genero?.genero;
     const {listaDeseos, agregarListaDeseos, eliminarListaDeseos, eliminarCarrito} = useJuegos();
     const navigate = useNavigate();
@@ -37,7 +38,7 @@ export const CarritoCard = ({juego}) => {
                 className="flex-shrink-0 md:w-64 md:h-48 mx-auto p-3 h-40 w-28 m-3 rounded-lg hover:shadow-inner">
                     <img
                     className="h-full w-full object-cover rounded-lg cursor-pointer"
-                    src={imagen_prueba}
+                    src={imagen ? `${imagenPath}/${imagen}` : `${imagen_prueba}`}
                     alt="Producto"
                     />
             </div>

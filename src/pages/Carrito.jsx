@@ -47,7 +47,7 @@ export const Carrito = () => {
         }
 
         obtenerCarritoActual();
-    }, [carrito])
+    }, [])
 
     return (
         <div className="bg-slate-900 min-h-screen p-4">
